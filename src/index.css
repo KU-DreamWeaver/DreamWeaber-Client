@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Prevent double scrollbars if possible, handle scroll in app */
+}
+
 :root {
   --primary: #8b5cf6; /* Example primary color (Violet-500) - can be changed */
   --background: #ffffff;

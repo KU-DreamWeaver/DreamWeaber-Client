@@ -10,27 +10,37 @@ import "./App.css";
 
 const Layout: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gray-50 pb-[80px]">
-      <div className="max-w-[430px] mx-auto bg-white min-h-screen relative shadow-xl">
-        <Outlet />
+    <div className="h-full w-full bg-gray-100 flex justify-center items-center overflow-hidden">
+      <div className="w-full max-w-[430px] h-full bg-white relative shadow-2xl flex flex-col overflow-hidden">
+        <div className="flex-1 overflow-y-auto pb-[80px] scrollbar-hide">
+          <Outlet />
+        </div>
         <BottomNav />
       </div>
     </div>
   );
 };
 
+import { useAlarmScheduler } from "./hooks/useAlarmScheduler";
+import { Toaster } from "react-hot-toast";
+
 function App() {
+  useAlarmScheduler();
+
   return (
-    <Routes>
-      <Route element={<Layout />}>
-        <Route path="/" element={<Navigate to="/calendar" replace />} />
-        <Route path="/calendar" element={<CalendarPage />} />
-        <Route path="/list" element={<ListPage />} />
-        <Route path="/record" element={<RecordPage />} />
-        <Route path="/alarm" element={<AlarmPage />} />
-        <Route path="/my" element={<MyPage />} />
-      </Route>
-    </Routes>
+    <>
+      <Toaster />
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<Navigate to="/calendar" replace />} />
+          <Route path="/calendar" element={<CalendarPage />} />
+          <Route path="/list" element={<ListPage />} />
+          <Route path="/record" element={<RecordPage />} />
+          <Route path="/alarm" element={<AlarmPage />} />
+          <Route path="/my" element={<MyPage />} />
+        </Route>
+      </Routes>
+    </>
   );
 }
 

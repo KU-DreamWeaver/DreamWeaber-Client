@@ -10,14 +10,14 @@ interface CreateDreamPayload {
 }
 
 const createDream = async (payload: CreateDreamPayload): Promise<DreamResponse> => {
-  return client.post('/api/dreamhistories', {
+  return client.post('/dreamhistories', {
     ...payload,
     userId: 1, // Hardcoded as per requirements
   });
 };
 
 const getDreams = async (month: string): Promise<DreamResponse<DreamRecord[]>> => {
-  return client.get('/api/dreamhistories', {
+  return client.get('/dreamhistories', {
     params: { month },
   });
 };

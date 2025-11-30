@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const client = axios.create({
   baseURL: 'https://dreamweaverss.store',
-  timeout: 15000,
+  timeout: 60000,
 });
 
 client.interceptors.response.use(
