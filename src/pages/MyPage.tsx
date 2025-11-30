@@ -17,19 +17,19 @@ const MyPage: React.FC = () => {
     <div className="p-6 space-y-6 pb-24">
       {/* Profile Card */}
       <div className="glass-panel rounded-3xl p-6 relative overflow-hidden group bg-white/40">
-        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-pink-300/30 to-purple-300/30 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none" />
+        <div className="absolute top-0 right-0 w-32 h-32 bg-linear-to-br from-pink-300/30 to-purple-300/30 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none" />
 
         <div className="flex items-center gap-5 relative z-10">
-          <div className="w-20 h-20 rounded-full bg-gradient-to-br from-[var(--primary)] to-[var(--secondary)] p-[3px] shadow-lg shadow-pink-200">
+          <div className="w-20 h-20 rounded-full bg-linear-to-br from-(--primary) to-(--secondary) p-[3px] shadow-lg shadow-pink-200">
             <div className="w-full h-full rounded-full bg-white/90 flex items-center justify-center backdrop-blur-sm">
-              <User size={32} className="text-[var(--primary)]" />
+              <User size={32} className="text-(--primary)" />
             </div>
           </div>
           <div>
-            <h2 className="text-xl font-bold text-[var(--text-primary)] mb-1">
+            <h2 className="text-xl font-bold text-(--text-primary) mb-1">
               드림웨버
             </h2>
-            <p className="text-sm text-[var(--text-secondary)] font-medium">
+            <p className="text-sm text-(--text-secondary) font-medium">
               dreamer@example.com
             </p>
           </div>
@@ -46,13 +46,13 @@ const MyPage: React.FC = () => {
             }`}
           >
             <div className="w-12 h-12 rounded-2xl bg-white/60 flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform duration-200 border border-white/50">
-              <item.icon size={22} className="text-[var(--primary)]" />
+              <item.icon size={22} className="text-(--primary)" />
             </div>
             <div className="flex-1">
-              <p className="font-bold text-[var(--text-primary)] text-[15px]">
+              <p className="font-bold text-(--text-primary) text-[15px]">
                 {item.label}
               </p>
-              <p className="text-xs text-[var(--text-secondary)] mt-0.5">
+              <p className="text-xs text-(--text-secondary) mt-0.5">
                 {item.description}
               </p>
             </div>

@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { Plus, Smile, Frown, Angry, X } from "lucide-react";
+import { Plus, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCreateDreamMutation } from "../../hooks/queries/useDream";
 import type { EmotionType, DreamRecord } from "../../types/dream";
+import { EMOTIONS } from "../../constants/dream";
 
 interface RecordModalProps {
   isOpen: boolean;
@@ -16,17 +17,6 @@ interface RecordFormValues {
   description: string;
   emotion: EmotionType;
 }
-
-const EMOTIONS: {
-  value: EmotionType;
-  label: string;
-  icon: React.ElementType;
-  color: string;
-}[] = [
-  { value: "JOY", label: "기쁨", icon: Smile, color: "text-[#FF9966]" },
-  { value: "SAD", label: "슬픔", icon: Frown, color: "text-[#5B86E5]" },
-  { value: "ANGRY", label: "분노", icon: Angry, color: "text-[#EF4444]" },
-];
 
 const RecordModal: React.FC<RecordModalProps> = ({
   isOpen,
