@@ -21,19 +21,10 @@ const AlarmPage: React.FC = () => {
 
   return (
     <div className="p-4 space-y-4 pb-20">
-      <h1
-        className="gradient-title text-2xl font-bold"
-        style={{ fontFamily: "'LOTTERIA CHAB', sans-serif" }}
-      >
-        DreamWeaver
-      </h1>
-
       {/* Status Card */}
       <div
         className={`card-container relative overflow-hidden rounded-2xl p-6 text-center transition-all duration-300 ${
-          isEnabled
-            ? "bg-gradient-to-br from-[var(--primary)] to-[var(--primary-dark)] text-white"
-            : ""
+          isEnabled ? "bg-(--primary-light)" : ""
         }`}
       >
         <div className="relative z-10 flex flex-col items-center justify-center space-y-2">
@@ -52,16 +43,16 @@ const AlarmPage: React.FC = () => {
             </>
           ) : (
             <>
-              <div className="p-3 bg-[var(--primary-light)] rounded-full mb-2">
-                <BellOff size={28} className="text-[var(--secondary)]" />
+              <div className="p-3 bg-(--primary-light) rounded-full mb-2">
+                <BellOff size={28} className="text-(--secondary)" />
               </div>
-              <p className="text-sm font-medium text-[var(--text-secondary)]">
+              <p className="text-sm font-medium text-(--text-secondary)">
                 알람이 꺼져있어요
               </p>
-              <h2 className="text-4xl font-bold tracking-tight text-[var(--text-muted)]">
+              <h2 className="text-4xl font-bold tracking-tight text-(--text-muted)">
                 -- : --
               </h2>
-              <p className="text-xs text-[var(--text-muted)]">
+              <p className="text-xs text-(--text-muted)">
                 아래에서 알람을 설정해보세요
               </p>
             </>
@@ -72,10 +63,10 @@ const AlarmPage: React.FC = () => {
       {/* Controls */}
       <div className="card-container rounded-2xl p-6 space-y-5">
         <div className="text-center">
-          <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-1">
+          <h3 className="text-lg font-semibold text-(--text-primary) mb-1">
             시간 설정
           </h3>
-          <p className="text-sm text-[var(--text-muted)]">
+          <p className="text-sm text-(--text-muted)">
             기상 시간을 선택해주세요
           </p>
         </div>
@@ -104,10 +95,10 @@ const AlarmPage: React.FC = () => {
               toast.success("알람이 해제되었어요");
             }
           }}
-          className={`w-full py-3.5 rounded-xl font-bold text-base transition-all duration-300 ${
+          className={`w-full py-4 rounded-2xl font-bold text-lg transition-all duration-300 shadow-lg ${
             isEnabled
-              ? "bg-[var(--primary-light)] text-[var(--text-secondary)] hover:bg-[var(--secondary-light)]"
-              : "btn-primary text-white shadow-lg"
+              ? "bg-(--primary) text-white"
+              : "bg-white/50 text-gray-500"
           }`}
         >
           {isEnabled ? "알람 해제" : "알람 설정"}

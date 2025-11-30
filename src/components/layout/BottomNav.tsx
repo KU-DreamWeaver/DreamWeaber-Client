@@ -1,6 +1,7 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Calendar, Book, Pen, Bell, User } from "lucide-react";
+import { motion } from "framer-motion";
 
 const BottomNav: React.FC = () => {
   const location = useLocation();
@@ -17,18 +18,26 @@ const BottomNav: React.FC = () => {
   ];
 
   return (
-    <nav className="w-full bg-white/95 backdrop-blur-sm flex justify-around items-center h-[70px] px-4 border-t border-[var(--secondary-light)]/30 relative">
+    <nav className="w-full h-[88px] glass-panel flex justify-evenly items-center px-6 relative z-50 pb-4">
       {navItems.map((item) => {
         if (item.isFab) {
           return (
-            <button
-              key={item.path}
-              onClick={() => navigate(item.path)}
-              className="absolute -top-5 left-1/2 -translate-x-1/2 w-12 h-12 rounded-full btn-primary shadow-lg flex flex-col items-center justify-center border-4 border-white"
-              aria-label={item.label}
-            >
-              <item.icon size={20} color="white" strokeWidth={2} />
-            </button>
+            <div key={item.path} className="relative -top-8 group">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => navigate(item.path)}
+                className="w-[72px] h-[72px] rounded-full from-[#4A00E0] via-[#8E2DE2] to-[#5B86E5] flex items-center justify-center text-white shadow-[0_10px_40px_-10px_rgba(139,92,246,0.5)] animate-breathe relative z-10"
+                aria-label={item.label}
+              >
+                <div className="absolute inset-0 rounded-full bg-linear-to-r from-(--primary-start) to-(--primary-end)" />
+                <item.icon
+                  size={32}
+                  strokeWidth={2.5}
+                  className="relative z-10"
+                />
+              </motion.button>
+            </div>
           );
         }
 
@@ -37,19 +46,24 @@ const BottomNav: React.FC = () => {
           <button
             key={item.path}
             onClick={() => navigate(item.path)}
-            className={`flex flex-col items-center justify-center gap-0.5 transition-colors ${
-              active ? "text-[var(--primary)]" : "text-[var(--secondary)]/60"
+            className={`flex flex-col items-center justify-center gap-1 transition-all duration-300 w-14 ${
+              active ? "text-[#8E2DE2]" : "text-[#94a3b8] hover:text-[#64748b]"
             }`}
             aria-label={item.label}
           >
-            <item.icon size={20} strokeWidth={active ? 2.5 : 2} />
-            <span
-              className={`text-[10px] ${
-                active ? "font-semibold" : "font-medium"
+            <div
+              className={`p-2 rounded-2xl transition-all duration-300 ${
+                active ? "bg-white/50 shadow-sm backdrop-blur-sm" : ""
               }`}
             >
-              {item.label}
-            </span>
+              <item.icon
+                size={26}
+                strokeWidth={active ? 2.5 : 2}
+                className={`transition-all duration-300 ${
+                  active ? "drop-shadow-sm" : ""
+                }`}
+              />
+            </div>
           </button>
         );
       })}

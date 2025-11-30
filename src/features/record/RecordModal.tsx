@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Plus, Smile, Frown, Angry, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useCreateDreamMutation } from "../../hooks/queries/useDream";
 import type { EmotionType, DreamRecord } from "../../types/dream";
 
@@ -20,10 +21,11 @@ const EMOTIONS: {
   value: EmotionType;
   label: string;
   icon: React.ElementType;
+  color: string;
 }[] = [
-  { value: "JOY", label: "기쁨", icon: Smile },
-  { value: "SAD", label: "슬픔", icon: Frown },
-  { value: "ANGRY", label: "분노", icon: Angry },
+  { value: "JOY", label: "기쁨", icon: Smile, color: "text-[#FF9966]" },
+  { value: "SAD", label: "슬픔", icon: Frown, color: "text-[#5B86E5]" },
+  { value: "ANGRY", label: "분노", icon: Angry, color: "text-[#EF4444]" },
 ];
 
 const RecordModal: React.FC<RecordModalProps> = ({
@@ -83,145 +85,159 @@ const RecordModal: React.FC<RecordModalProps> = ({
     });
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div className="absolute inset-0 z-[100] flex flex-col mobile-gradient overflow-hidden">
-      {/* Header with Title */}
-      <div className="pt-6 px-5 shrink-0">
-        <h1
-          className="gradient-title text-2xl font-bold tracking-tight"
-          style={{ fontFamily: "'LOTTERIA CHAB', sans-serif" }}
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-[100] flex flex-col bg-[#faf9fe]/90 backdrop-blur-xl"
         >
-          DreamWeaver
-        </h1>
-      </div>
-
-      {/* Main Character Image - using local asset */}
-      <div className="flex justify-center items-center shrink-0 py-3">
-        <div className="w-[100px] h-[100px] shrink-0">
-          <img
-            src="/charactor.png"
-            alt="Dream character"
-            className="w-full h-full object-contain drop-shadow-lg"
-          />
-        </div>
-      </div>
-
-      {/* Card Container - scrollable */}
-      <div className="flex-1 mx-4 mb-3 rounded-2xl p-4 flex flex-col card-container overflow-y-auto min-h-0">
-        {/* Keyword Section */}
-        <section className="mb-4 shrink-0">
-          <label className="block text-sm font-semibold text-[var(--text-primary)] mb-1.5">
-            키워드를 입력하세요
-          </label>
-          <div className="flex gap-2 items-center">
-            <input
-              type="text"
-              value={keywordInput}
-              onChange={(e) => setKeywordInput(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder="키워드"
-              className="input-field flex-1 h-10 px-4 rounded-full text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] outline-none"
-            />
+          {/* Header */}
+          <div className="pt-6 px-6 shrink-0 flex justify-between items-center">
+            <h1 className="text-2xl font-bold tracking-tight text-[#1e293b]">
+              꿈 기록하기
+            </h1>
             <button
-              type="button"
-              onClick={handleAddKeyword}
-              className="btn-primary w-10 h-10 rounded-full text-white flex items-center justify-center shadow-md"
+              onClick={onClose}
+              className="p-2 rounded-full hover:bg-black/5 transition-colors"
             >
-              <Plus size={20} strokeWidth={2.5} />
+              <X size={24} className="text-gray-500" />
             </button>
           </div>
-          {/* Keywords Tags */}
-          {keywords.length > 0 && (
-            <div className="flex flex-wrap gap-1.5 mt-2">
-              {keywords.map((keyword) => (
-                <span
-                  key={keyword}
-                  onClick={() => handleRemoveKeyword(keyword)}
-                  className="px-2.5 py-1 bg-[var(--primary-light)] rounded-full text-xs cursor-pointer hover:bg-[var(--secondary-light)] flex items-center gap-1 text-[var(--secondary)] font-medium transition-colors"
-                >
-                  {keyword}
-                  <X size={12} />
-                </span>
-              ))}
-            </div>
-          )}
-        </section>
 
-        {/* Description Section */}
-        <section className="mb-4 shrink-0">
-          <label className="block text-sm font-semibold text-[var(--text-primary)] mb-1.5">
-            짧은 문장을 입력하세요
-          </label>
-          <input
-            {...register("description", { required: true })}
-            type="text"
-            className="input-field w-full h-10 px-4 rounded-full text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] outline-none"
-            placeholder="오늘 꾼 꿈에 대해 적어주세요"
-          />
-          {errors.description && (
-            <span className="text-[var(--primary)] text-xs mt-1 block">
-              문장을 입력해주세요
-            </span>
-          )}
-        </section>
-
-        {/* Emotion Section */}
-        <section className="mb-4 shrink-0">
-          <label className="block text-sm font-semibold text-[var(--text-primary)] mb-1.5">
-            감정을 선택하세요
-          </label>
-          <div className="flex gap-2 justify-start">
-            {EMOTIONS.map((emotion) => (
-              <label key={emotion.value} className="cursor-pointer">
-                <input
-                  type="radio"
-                  value={emotion.value}
-                  {...register("emotion")}
-                  className="peer hidden"
-                />
-                <div
-                  className={`emotion-btn w-[60px] h-[60px] rounded-xl flex flex-col items-center justify-center gap-0.5 ${
-                    selectedEmotion === emotion.value ? "selected" : ""
-                  }`}
-                >
-                  <emotion.icon
-                    size={26}
-                    className={
-                      selectedEmotion === emotion.value
-                        ? "text-[var(--primary)]"
-                        : "text-[var(--secondary)]"
-                    }
-                    strokeWidth={1.5}
-                  />
-                  <span
-                    className={`text-[10px] font-medium ${
-                      selectedEmotion === emotion.value
-                        ? "text-[var(--primary)]"
-                        : "text-[var(--secondary)]"
-                    }`}
-                  >
-                    {emotion.label}
-                  </span>
+          {/* Main Content */}
+          <div className="flex-1 overflow-y-auto px-6 py-6">
+            <div className="glass-card p-6 space-y-8">
+              {/* Emotion Section */}
+              <section>
+                <label className="block text-sm font-bold text-gray-500 mb-4 uppercase tracking-wider">
+                  오늘의 기분
+                </label>
+                <div className="flex gap-4">
+                  {EMOTIONS.map((emotion) => (
+                    <label
+                      key={emotion.value}
+                      className="cursor-pointer group flex-1"
+                    >
+                      <input
+                        type="radio"
+                        value={emotion.value}
+                        {...register("emotion")}
+                        className="peer hidden"
+                      />
+                      <div
+                        className={`aspect-square rounded-2xl flex flex-col items-center justify-center gap-2 transition-all duration-300 border-2 ${
+                          selectedEmotion === emotion.value
+                            ? "bg-white border-[#8E2DE2] shadow-lg scale-105"
+                            : "bg-white/40 border-transparent hover:bg-white/60"
+                        }`}
+                      >
+                        <emotion.icon
+                          size={32}
+                          className={`transition-colors duration-300 ${
+                            selectedEmotion === emotion.value
+                              ? emotion.color
+                              : "text-gray-400"
+                          }`}
+                          strokeWidth={2}
+                        />
+                        <span
+                          className={`text-xs font-medium ${
+                            selectedEmotion === emotion.value
+                              ? "text-gray-800"
+                              : "text-gray-400"
+                          }`}
+                        >
+                          {emotion.label}
+                        </span>
+                      </div>
+                    </label>
+                  ))}
                 </div>
-              </label>
-            ))}
-          </div>
-        </section>
+              </section>
 
-        {/* Submit Button - at bottom */}
-        <div className="mt-auto pt-3 shrink-0">
-          <button
-            onClick={handleSubmit(onSubmit)}
-            disabled={isPending}
-            className="btn-primary w-full h-11 text-white rounded-xl font-bold text-base disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg"
-          >
-            {isPending ? "해석 중..." : "제출"}
-          </button>
-        </div>
-      </div>
-    </div>
+              {/* Keyword Section */}
+              <section>
+                <label className="block text-sm font-bold text-gray-500 mb-4 uppercase tracking-wider">
+                  키워드
+                </label>
+                <div className="flex gap-2 mb-3">
+                  <input
+                    type="text"
+                    value={keywordInput}
+                    onChange={(e) => setKeywordInput(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    placeholder="꿈의 키워드를 입력하세요"
+                    className="flex-1 h-12 px-4 rounded-xl border border-gray-200 bg-white/50 focus:bg-white focus:border-[#8E2DE2] outline-none transition-all placeholder:text-gray-400"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleAddKeyword}
+                    className="w-12 h-12 rounded-xl bg-[#8E2DE2] text-white flex items-center justify-center shadow-lg shadow-purple-200 hover:bg-[#7a25c2] transition-colors"
+                  >
+                    <Plus size={24} strokeWidth={2.5} />
+                  </button>
+                </div>
+                <div className="flex flex-wrap gap-2 min-h-[2rem]">
+                  <AnimatePresence>
+                    {keywords.map((keyword) => (
+                      <motion.span
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0.8, opacity: 0 }}
+                        key={keyword}
+                        onClick={() => handleRemoveKeyword(keyword)}
+                        className="px-3 py-1.5 bg-white border border-purple-100 rounded-lg text-sm cursor-pointer hover:bg-purple-50 flex items-center gap-1 text-[#8E2DE2] font-medium shadow-sm transition-colors"
+                      >
+                        {keyword}
+                        <X size={14} strokeWidth={2.5} />
+                      </motion.span>
+                    ))}
+                  </AnimatePresence>
+                </div>
+              </section>
+
+              {/* Description Section */}
+              <section>
+                <label className="block text-sm font-bold text-gray-500 mb-4 uppercase tracking-wider">
+                  꿈 내용
+                </label>
+                <textarea
+                  {...register("description", { required: true })}
+                  className="w-full h-32 p-4 rounded-2xl border border-gray-200 bg-white/50 focus:bg-white focus:border-[#8E2DE2] outline-none transition-all resize-none placeholder:text-gray-400 leading-relaxed"
+                  placeholder="어떤 꿈을 꾸셨나요? 자세히 적어주세요."
+                />
+                {errors.description && (
+                  <span className="text-pink-500 text-xs mt-2 block font-medium pl-1">
+                    꿈 내용을 입력해주세요
+                  </span>
+                )}
+              </section>
+            </div>
+          </div>
+
+          {/* Footer Action */}
+          <div className="p-6 bg-white/50 backdrop-blur-md border-t border-white/20">
+            <button
+              onClick={handleSubmit(onSubmit)}
+              disabled={isPending}
+              className="w-full h-14 bg-gradient-to-r from-[#4A00E0] to-[#8E2DE2] text-white rounded-2xl font-bold text-lg shadow-lg shadow-purple-200 hover:shadow-purple-300 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            >
+              {isPending ? (
+                "해석 중..."
+              ) : (
+                <>
+                  <span>꿈 기록하기</span>
+                  <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                </>
+              )}
+            </button>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 

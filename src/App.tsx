@@ -6,7 +6,8 @@ import ListPage from "./pages/ListPage";
 import RecordPage from "./pages/RecordPage";
 import AlarmPage from "./pages/AlarmPage";
 import MyPage from "./pages/MyPage";
-import "./App.css";
+
+import Header from "./components/layout/Header";
 
 const Layout: React.FC = () => {
   return (
@@ -14,12 +15,15 @@ const Layout: React.FC = () => {
     <div className="desktop-wrapper h-[100dvh] h-[100vh] w-full flex justify-center items-center overflow-hidden">
       {/* Mobile container - centered on desktop, full screen on mobile */}
       <div className="mobile-gradient w-full max-w-[430px] h-full md:h-[90vh] md:max-h-[850px] md:rounded-[32px] relative overflow-hidden md:shadow-2xl md:border md:border-white/20 flex flex-col">
+        {/* Header */}
+        <Header />
+
         {/* Content area */}
-        <div className="flex-1 overflow-y-auto scrollbar-hide relative">
+        <div className="flex-1 overflow-y-auto scrollbar-hide relative w-full">
           <Outlet />
         </div>
         {/* Bottom Navigation */}
-        <div className="shrink-0">
+        <div className="shrink-0 z-50">
           <BottomNav />
         </div>
       </div>

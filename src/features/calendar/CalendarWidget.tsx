@@ -13,11 +13,11 @@ interface CalendarWidgetProps {
 }
 
 const EMOTION_COLORS: Record<EmotionType, string> = {
-  JOY: "bg-[var(--primary)]",
-  SAD: "bg-[var(--secondary)]",
-  ANGRY: "bg-red-400",
-  FEAR: "bg-purple-500",
-  MUMBLE: "bg-gray-400",
+  JOY: "bg-[#FF9966]",
+  SAD: "bg-[#5B86E5]",
+  ANGRY: "bg-[#EF4444]",
+  FEAR: "bg-[#8B5CF6]",
+  MUMBLE: "bg-[#94A3B8]",
 };
 
 const CalendarWidget: React.FC<CalendarWidgetProps> = ({
@@ -32,11 +32,11 @@ const CalendarWidget: React.FC<CalendarWidgetProps> = ({
 
     if (dream) {
       return (
-        <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2">
+        <div className="absolute bottom-1.5 left-1/2 transform -translate-x-1/2 flex justify-center">
           <div
             className={`w-1.5 h-1.5 rounded-full ${
               EMOTION_COLORS[dream.emotion]
-            }`}
+            } ring-2 ring-white/50 shadow-sm`}
           />
         </div>
       );
@@ -57,10 +57,14 @@ const CalendarWidget: React.FC<CalendarWidgetProps> = ({
         value={selectedDate}
         formatDay={(_, date) => format(date, "d")}
         prevLabel={
-          <ChevronLeft size={20} className="text-[var(--secondary)]" />
+          <div className="p-2 hover:bg-white/20 rounded-full transition-colors">
+            <ChevronLeft size={20} className="text-[#1e293b]" />
+          </div>
         }
         nextLabel={
-          <ChevronRight size={20} className="text-[var(--secondary)]" />
+          <div className="p-2 hover:bg-white/20 rounded-full transition-colors">
+            <ChevronRight size={20} className="text-[#1e293b]" />
+          </div>
         }
         prev2Label={null}
         next2Label={null}

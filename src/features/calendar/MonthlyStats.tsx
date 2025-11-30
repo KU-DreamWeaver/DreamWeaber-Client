@@ -8,37 +8,48 @@ interface MonthlyStatsProps {
 
 const EMOTION_CONFIG: Record<
   EmotionType,
-  { label: string; icon: React.ElementType; bgColor: string; textColor: string }
+  {
+    label: string;
+    icon: React.ElementType;
+    bgColor: string;
+    textColor: string;
+    gradient: string;
+  }
 > = {
   JOY: {
     label: "기쁨",
     icon: Smile,
-    bgColor: "bg-[var(--primary-light)]",
-    textColor: "text-[var(--primary)]",
+    bgColor: "bg-[#FF9966]/10",
+    textColor: "text-[#FF9966]",
+    gradient: "from-[#FF9966] to-[#FF5E62]",
   },
   SAD: {
     label: "슬픔",
     icon: Frown,
-    bgColor: "bg-[var(--secondary-light)]/50",
-    textColor: "text-[var(--secondary)]",
+    bgColor: "bg-[#5B86E5]/10",
+    textColor: "text-[#5B86E5]",
+    gradient: "from-[#5B86E5] to-[#36D1DC]",
   },
   ANGRY: {
     label: "분노",
     icon: Angry,
-    bgColor: "bg-red-100",
-    textColor: "text-red-500",
+    bgColor: "bg-[#EF4444]/10",
+    textColor: "text-[#EF4444]",
+    gradient: "from-[#EF4444] to-[#F7797D]",
   },
   FEAR: {
     label: "공포",
     icon: Ghost,
-    bgColor: "bg-purple-100",
-    textColor: "text-purple-500",
+    bgColor: "bg-[#8B5CF6]/10",
+    textColor: "text-[#8B5CF6]",
+    gradient: "from-[#8B5CF6] to-[#C471ED]",
   },
   MUMBLE: {
     label: "모호함",
     icon: Meh,
-    bgColor: "bg-gray-100",
-    textColor: "text-gray-500",
+    bgColor: "bg-[#94A3B8]/10",
+    textColor: "text-[#94A3B8]",
+    gradient: "from-[#94A3B8] to-[#E2E2E2]",
   },
 };
 
@@ -64,10 +75,8 @@ const MonthlyStats: React.FC<MonthlyStatsProps> = ({ currentMonthDreams }) => {
 
   if (!stats) {
     return (
-      <div className="text-center py-6">
-        <p className="text-[var(--text-muted)] text-sm">
-          이번 달에 기록된 꿈이 없어요
-        </p>
+      <div className="text-center py-12 glass-panel rounded-[32px]">
+        <p className="text-gray-400 text-base">이번 달에 기록된 꿈이 없어요</p>
       </div>
     );
   }
@@ -76,26 +85,39 @@ const MonthlyStats: React.FC<MonthlyStatsProps> = ({ currentMonthDreams }) => {
   const maxConfig = EMOTION_CONFIG[stats.maxEmotion];
 
   return (
-    <div>
-      <h3 className="text-base font-semibold text-[var(--text-primary)] mb-3">
-        이번 달 분석
-      </h3>
+    <div className="space-y-8">
+      <h3 className="text-xl font-bold text-[#1e293b] px-2">이번 달 분석</h3>
 
-      <div className="flex items-center justify-between mb-4 p-3 rounded-xl bg-[var(--primary-light)]">
-        <div>
-          <p className="text-xs text-[var(--text-muted)] mb-0.5">
-            이번 달의 감정
+      {/* Main Emotion Card - Centered & Large */}
+      <div className="glass-card p-8 flex flex-col items-center justify-center text-center relative overflow-hidden group shadow-xl border border-white/60">
+        <div
+          className={`absolute inset-0 opacity-10 bg-gradient-to-br ${maxConfig.gradient}`}
+        />
+        <div className="relative z-10 mb-4">
+          <div
+            className={`w-24 h-24 rounded-full bg-gradient-to-br ${maxConfig.gradient} flex items-center justify-center shadow-lg shadow-gray-200`}
+          >
+            <MaxEmotionIcon
+              size={48}
+              className="text-white drop-shadow-md"
+              strokeWidth={2.5}
+            />
+          </div>
+        </div>
+        <div className="relative z-10">
+          <p className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-2">
+            가장 많이 느낀 감정
           </p>
-          <p className="text-lg font-bold text-[var(--text-primary)]">
+          <p
+            className={`text-4xl font-black bg-gradient-to-r ${maxConfig.gradient} bg-clip-text text-transparent`}
+          >
             {maxConfig.label}
           </p>
         </div>
-        <div className={`p-3 rounded-full ${maxConfig.bgColor}`}>
-          <MaxEmotionIcon size={24} className={maxConfig.textColor} />
-        </div>
       </div>
 
-      <div className="space-y-2">
+      {/* Stats Grid - Individual Glass Pills */}
+      <div className="grid gap-4">
         {Object.entries(stats.counts)
           .sort(([, a], [, b]) => b - a)
           .map(([key, count]) => {
@@ -104,25 +126,30 @@ const MonthlyStats: React.FC<MonthlyStatsProps> = ({ currentMonthDreams }) => {
             const percentage = Math.round((count / stats.total) * 100);
 
             return (
-              <div key={emotion} className="flex items-center gap-2">
-                <div className={`p-1.5 rounded-lg ${config.bgColor}`}>
-                  <config.icon size={14} className={config.textColor} />
+              <div
+                key={emotion}
+                className="glass-card p-4 flex items-center gap-4 hover:bg-white/60 transition-colors border border-white/40 shadow-md"
+              >
+                <div className={`p-3 rounded-2xl ${config.bgColor}`}>
+                  <config.icon
+                    size={24}
+                    className={config.textColor}
+                    strokeWidth={2.5}
+                  />
                 </div>
-                <div className="flex-1">
-                  <div className="flex justify-between text-xs mb-1">
-                    <span className="font-medium text-[var(--text-primary)]">
+
+                <div className="flex-1 min-w-0">
+                  <div className="flex justify-between items-end mb-2">
+                    <span className="font-bold text-gray-700 text-lg">
                       {config.label}
                     </span>
-                    <span className="text-[var(--text-muted)]">
-                      {count}개 ({percentage}%)
+                    <span className="font-bold text-gray-900 text-lg">
+                      {percentage}%
                     </span>
                   </div>
-                  <div className="w-full h-1.5 bg-[var(--secondary-light)]/30 rounded-full overflow-hidden">
+                  <div className="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
                     <div
-                      className={`h-full rounded-full ${config.textColor.replace(
-                        "text",
-                        "bg"
-                      )}`}
+                      className={`h-full rounded-full bg-gradient-to-r ${config.gradient} shadow-sm`}
                       style={{ width: `${percentage}%` }}
                     />
                   </div>
