@@ -54,7 +54,7 @@ const DreamCard: React.FC<DreamCardProps> = ({ dream, onClick }) => {
               {dream.description}
             </h3>
             <p className="text-sm text-white/70 line-clamp-2">
-              꿈의 해석이 이곳에 표시됩니다...
+              {dream.aiSummary}
             </p>
           </div>
 
