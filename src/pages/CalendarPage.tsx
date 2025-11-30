@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import CalendarWidget from "../features/calendar/CalendarWidget";
 import MonthlyStats from "../features/calendar/MonthlyStats";
 import DreamCard from "../components/dream/DreamCard";
@@ -13,16 +13,18 @@ const CalendarPage: React.FC = () => {
 
   // Fetch dreams for the current month (using dummy data for now)
   const { data: response } = useDreamsQuery();
-  const dreams = useMemo(() => response?.data || [], [response?.data]);
-
+  const dreams = response?.data || [];
+  const dreamsForCurrentMonth = dreams.filter(
+    (dream) =>
+      format(new Date(dream.createdAt), "yyyy-MM") ===
+      format(selectedDate, "yyyy-MM")
+  );
   // Find dream for selected date
-  const dreamForSelectedDate = useMemo(() => {
-    return dreams.find(
-      (dream) =>
-        format(new Date(dream.createdAt), "yyyy-MM-dd") ===
-        format(selectedDate, "yyyy-MM-dd")
-    );
-  }, [dreams, selectedDate]);
+  const dreamForSelectedDate = dreams.find(
+    (dream) =>
+      format(new Date(dream.createdAt), "yyyy-MM-dd") ===
+      format(selectedDate, "yyyy-MM-dd")
+  );
 
   return (
     <div className="p-6 space-y-8 h-full pb-24 overflow-y-auto flex flex-col">
@@ -36,7 +38,7 @@ const CalendarPage: React.FC = () => {
       </div>
 
       {/* Analysis Section */}
-      <MonthlyStats currentMonthDreams={dreams} />
+      <MonthlyStats currentMonthDreams={dreamsForCurrentMonth} />
 
       {/* Selected Dream Card */}
       {dreamForSelectedDate && (

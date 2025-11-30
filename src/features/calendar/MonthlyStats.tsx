@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { Smile, Frown, Angry, Ghost, Meh } from "lucide-react";
 import type { DreamRecord, EmotionType } from "../../types/dream";
 
@@ -54,7 +54,7 @@ const EMOTION_CONFIG: Record<
 };
 
 const MonthlyStats: React.FC<MonthlyStatsProps> = ({ currentMonthDreams }) => {
-  const stats = useMemo(() => {
+  const stats = (() => {
     if (currentMonthDreams.length === 0) return null;
 
     const counts = currentMonthDreams.reduce((acc, dream) => {
@@ -71,7 +71,7 @@ const MonthlyStats: React.FC<MonthlyStatsProps> = ({ currentMonthDreams }) => {
       maxEmotion,
       total: currentMonthDreams.length,
     };
-  }, [currentMonthDreams]);
+  })();
 
   if (!stats) {
     return (
