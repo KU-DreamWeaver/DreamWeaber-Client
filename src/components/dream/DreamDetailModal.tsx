@@ -72,7 +72,7 @@ const DreamDetailModal: React.FC<DreamDetailModalProps> = ({
               </div>
 
               {/* Content Section (Overlapping) */}
-              <div className="relative z-10 bg-white rounded-t-3xl -mt-10 p-10 pb-30 space-y-6 min-h-[70vh]">
+              <div className="relative z-10 bg-white rounded-t-3xl -mt-10 p-7 pb-30 space-y-6 min-h-[70vh]">
                 {/* Date & Emotion */}
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2 text-gray-500">
