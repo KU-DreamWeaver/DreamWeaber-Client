@@ -22,7 +22,7 @@ const AMPM = ["오전", "오후"];
 
 const TimePicker: React.FC<TimePickerProps> = ({ value, onChange }) => {
   return (
-    <div className="relative h-[180px] w-full overflow-hidden rounded-xl">
+    <div className="relative h-[180px] w-full overflow-hidden rounded-xl touch-none">
       {/* Top Overlay */}
       <div className="absolute top-0 w-full h-[35%] bg-linear-to-b from-(--card-bg) to-transparent pointer-events-none z-10" />
 
