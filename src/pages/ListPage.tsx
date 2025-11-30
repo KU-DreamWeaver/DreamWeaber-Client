@@ -5,12 +5,11 @@ import { useDreamsQuery } from "../hooks/queries/useDream";
 import DreamListCard from "../components/dream/DreamListCard";
 import DreamDetailModal from "../components/dream/DreamDetailModal";
 import type { DreamRecord } from "../types/dream";
-import { format } from "date-fns";
 
 const ListPage: React.FC = () => {
   const [selectedDream, setSelectedDream] = useState<DreamRecord | null>(null);
   // Fetch dreams for current month (or all if API supported it, but using dummy data so it returns all)
-  const { data: response } = useDreamsQuery(format(new Date(), "yyyy-MM"));
+  const { data: response } = useDreamsQuery();
   const dreams = response?.data || [];
 
   return (
