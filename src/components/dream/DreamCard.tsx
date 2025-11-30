@@ -31,7 +31,7 @@ const DreamCard: React.FC<DreamCardProps> = ({ dream, onClick }) => {
       <div className="absolute inset-0 p-6 flex flex-col justify-end">
         <div className="glass-panel border-0 bg-white/10 backdrop-blur-md rounded-3xl p-5 text-white space-y-3 transform transition-all duration-300 translate-y-2 group-hover:translate-y-0">
           {/* Header */}
-          <div className="flex justify-between items-start">
+          <div className="flex justify-between items-start flex-wrap gap-y-2">
             <div className="flex gap-2 flex-wrap">
               {dream.keywords.slice(0, 2).map((keyword) => (
                 <span
@@ -42,7 +42,7 @@ const DreamCard: React.FC<DreamCardProps> = ({ dream, onClick }) => {
                 </span>
               ))}
             </div>
-            <div className="flex items-center gap-1 text-white/80 text-xs bg-black/20 px-2 py-1 rounded-full">
+            <div className="flex items-center gap-1 text-white/80 text-xs bg-black/20 px-2 py-1 rounded-full shrink-0">
               <Calendar size={12} />
               <span>{format(new Date(dream.createdAt), "yyyy-MM-dd")}</span>
             </div>
