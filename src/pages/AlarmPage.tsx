@@ -35,31 +35,29 @@ const AlarmPage: React.FC = () => {
       return true;
     }
 
+    // 1. Check if Notification API exists
+    if (typeof Notification === "undefined" || !("Notification" in window)) {
+      setIsEnabled(true);
+      return true;
+    }
+
+    // 2. Check current permission
     if (Notification.permission === "granted") {
       setIsEnabled(true);
       return true;
     }
 
-    if (Notification.permission === "denied") {
-      toast.error(
-        "알림 권한이 차단되어 있습니다. 브라우저 설정에서 권한을 허용해주세요."
-      );
-      return false;
-    }
-
+    // 3. Request permission
     try {
-      const permission = await Notification.requestPermission();
-      if (permission === "granted") {
-        setIsEnabled(true);
-        return true;
-      } else {
-        toast.error("알림 권한을 허용해야 알람을 받을 수 있어요");
-        return false;
-      }
+      await Notification.requestPermission();
+      // Enable alarm regardless of permission result (we have fallback)
+      setIsEnabled(true);
+      return true;
     } catch (error) {
       console.error("Permission request failed", error);
-      toast.error("알림 권한 요청 중 오류가 발생했습니다.");
-      return false;
+      // Enable alarm even if request fails
+      setIsEnabled(true);
+      return true;
     }
   };
 
