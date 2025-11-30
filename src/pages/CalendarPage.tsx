@@ -12,7 +12,7 @@ const CalendarPage: React.FC = () => {
   const [selectedDream, setSelectedDream] = useState<DreamRecord | null>(null);
 
   // Fetch dreams for the current month (using dummy data for now)
-  const { data: response } = useDreamsQuery(format(selectedDate, "yyyy-MM"));
+  const { data: response } = useDreamsQuery();
   const dreams = useMemo(() => response?.data || [], [response?.data]);
 
   // Find dream for selected date

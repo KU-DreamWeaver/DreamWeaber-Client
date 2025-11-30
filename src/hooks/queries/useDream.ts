@@ -16,18 +16,8 @@ const createDream = async (payload: CreateDreamPayload): Promise<DreamResponse> 
   });
 };
 
-import { DUMMY_DREAMS } from '../../mocks/dreams';
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const getDreams = async (_month: string): Promise<DreamResponse<DreamRecord[]>> => {
-  // Simulate API delay
-  await new Promise((resolve) => setTimeout(resolve, 500));
-  
-  return {
-    code: 200,
-    message: "Success",
-    data: DUMMY_DREAMS
-  };
+const getDreams = async (userId: number = 1): Promise<DreamResponse<DreamRecord[]>> => {
+  return client.get(`/dreamhistories/${userId}`);
 };
 
 
@@ -42,10 +32,10 @@ export const useCreateDreamMutation = () => {
   });
 };
 
-export const useDreamsQuery = (month: string) => {
+export const useDreamsQuery = () => {
   return useQuery({
-    queryKey: ['dreams', month],
-    queryFn: () => getDreams(month),
+    queryKey: ['dreams'],
+    queryFn: () => getDreams(),
     staleTime: 1000 * 60 * 5, // 5 minutes
   });
 };
