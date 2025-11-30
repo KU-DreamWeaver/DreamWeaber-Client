@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useCreateDreamMutation } from "../../hooks/queries/useDream";
 import type { EmotionType, DreamRecord } from "../../types/dream";
 import { EMOTIONS } from "../../constants/dream";
+import toast from "react-hot-toast";
 
 interface RecordModalProps {
   isOpen: boolean;
@@ -66,6 +67,11 @@ const RecordModal: React.FC<RecordModalProps> = ({
   };
 
   const onSubmit = (data: RecordFormValues) => {
+    if (data.keywords.length === 0) {
+      toast.error("키워드를 최소 1개 이상 입력해주세요");
+      return;
+    }
+
     mutate(data, {
       onSuccess: (response) => {
         reset();
@@ -99,9 +105,9 @@ const RecordModal: React.FC<RecordModalProps> = ({
 
           {/* Main Content */}
           <div className="flex-1 overflow-y-auto px-6 py-6">
-            <div className="glass-card p-6 space-y-8">
+            <div className="glass-card p-3 space-y-8">
               {/* Emotion Section */}
-              <section>
+              <section className="min-h-32">
                 <label className="block text-sm font-bold text-gray-500 mb-4 uppercase tracking-wider">
                   오늘의 기분
                 </label>
@@ -120,7 +126,7 @@ const RecordModal: React.FC<RecordModalProps> = ({
                       <div
                         className={`aspect-square rounded-2xl flex flex-col items-center justify-center gap-2 transition-all duration-300 border-2 ${
                           selectedEmotion === emotion.value
-                            ? "bg-white border-[#8E2DE2] shadow-lg scale-105"
+                            ? "bg-white border-[#8E2DE2] py-2 px-1 shadow-lg scale-101"
                             : "bg-white/40 border-transparent hover:bg-white/60"
                         }`}
                       >
