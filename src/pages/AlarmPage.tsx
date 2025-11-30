@@ -35,11 +35,6 @@ const AlarmPage: React.FC = () => {
       return true;
     }
 
-    if (!("Notification" in window)) {
-      toast.error("이 브라우저는 알림을 지원하지 않습니다.");
-      return false;
-    }
-
     if (Notification.permission === "granted") {
       setIsEnabled(true);
       return true;
