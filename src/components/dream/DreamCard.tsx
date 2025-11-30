@@ -2,6 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Calendar, Moon, Sparkles } from "lucide-react";
 import type { DreamRecord } from "../../types/dream";
+import { format } from "date-fns";
 
 interface DreamCardProps {
   dream: DreamRecord;
@@ -9,10 +10,6 @@ interface DreamCardProps {
 }
 
 const DreamCard: React.FC<DreamCardProps> = ({ dream, onClick }) => {
-  // Mock image if none provided (assuming dream has an imageUrl or we use a placeholder)
-  const imageUrl =
-    "https://images.unsplash.com/photo-1517315003714-a071486bd9ea?q=80&w=2071&auto=format&fit=crop";
-
   return (
     <motion.div
       whileHover={{ scale: 1.02 }}
@@ -22,13 +19,13 @@ const DreamCard: React.FC<DreamCardProps> = ({ dream, onClick }) => {
     >
       {/* Full Bleed Image */}
       <img
-        src={imageUrl}
+        src={dream.imageUrl}
         alt="Dream visualization"
         className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
       />
 
       {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[#2a0845]/90 via-[#6441A5]/40 to-transparent opacity-80" />
+      <div className="absolute inset-0 bg-linear-to-t from-[#2a0845]/90 via-[#6441A5]/40 to-transparent opacity-80" />
 
       {/* Content Content */}
       <div className="absolute inset-0 p-6 flex flex-col justify-end">
@@ -47,7 +44,7 @@ const DreamCard: React.FC<DreamCardProps> = ({ dream, onClick }) => {
             </div>
             <div className="flex items-center gap-1 text-white/80 text-xs bg-black/20 px-2 py-1 rounded-full">
               <Calendar size={12} />
-              <span>{new Date().toLocaleDateString()}</span>
+              <span>{format(new Date(dream.createdAt), "yyyy-MM-dd")}</span>
             </div>
           </div>
 

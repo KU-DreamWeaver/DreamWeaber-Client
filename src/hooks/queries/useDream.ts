@@ -16,10 +16,18 @@ const createDream = async (payload: CreateDreamPayload): Promise<DreamResponse> 
   });
 };
 
-const getDreams = async (month: string): Promise<DreamResponse<DreamRecord[]>> => {
-  return client.get('/dreamhistories', {
-    params: { month },
-  });
+import { DUMMY_DREAMS } from '../../mocks/dreams';
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const getDreams = async (_month: string): Promise<DreamResponse<DreamRecord[]>> => {
+  // Simulate API delay
+  await new Promise((resolve) => setTimeout(resolve, 500));
+  
+  return {
+    code: 200,
+    message: "Success",
+    data: DUMMY_DREAMS
+  };
 };
 
 

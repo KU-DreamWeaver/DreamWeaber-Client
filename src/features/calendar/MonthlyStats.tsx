@@ -75,7 +75,7 @@ const MonthlyStats: React.FC<MonthlyStatsProps> = ({ currentMonthDreams }) => {
 
   if (!stats) {
     return (
-      <div className="text-center py-12 glass-panel rounded-[32px]">
+      <div className="text-center py-12 glass-panel rounded-4xl">
         <p className="text-gray-400 text-base">이번 달에 기록된 꿈이 없어요</p>
       </div>
     );
@@ -91,11 +91,11 @@ const MonthlyStats: React.FC<MonthlyStatsProps> = ({ currentMonthDreams }) => {
       {/* Main Emotion Card - Centered & Large */}
       <div className="glass-card p-8 flex flex-col items-center justify-center text-center relative overflow-hidden group shadow-xl border border-white/60">
         <div
-          className={`absolute inset-0 opacity-10 bg-gradient-to-br ${maxConfig.gradient}`}
+          className={`absolute inset-0 opacity-10 bg-linear-to-br ${maxConfig.gradient}`}
         />
         <div className="relative z-10 mb-4">
           <div
-            className={`w-24 h-24 rounded-full bg-gradient-to-br ${maxConfig.gradient} flex items-center justify-center shadow-lg shadow-gray-200`}
+            className={`w-24 h-24 rounded-full bg-linear-to-br ${maxConfig.gradient} flex items-center justify-center shadow-lg shadow-gray-200`}
           >
             <MaxEmotionIcon
               size={48}
@@ -149,7 +149,7 @@ const MonthlyStats: React.FC<MonthlyStatsProps> = ({ currentMonthDreams }) => {
                   </div>
                   <div className="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
                     <div
-                      className={`h-full rounded-full bg-gradient-to-r ${config.gradient} shadow-sm`}
+                      className={`h-full rounded-full bg-linear-to-r ${config.gradient} shadow-sm`}
                       style={{ width: `${percentage}%` }}
                     />
                   </div>

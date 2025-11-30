@@ -1,49 +1,61 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import CalendarWidget from "../features/calendar/CalendarWidget";
 import MonthlyStats from "../features/calendar/MonthlyStats";
+import DreamCard from "../components/dream/DreamCard";
+import DreamDetailModal from "../components/dream/DreamDetailModal";
+import { useDreamsQuery } from "../hooks/queries/useDream";
 import type { DreamRecord } from "../types/dream";
-
-// Dummy data for demonstration
-const DUMMY_DREAMS: DreamRecord[] = [
-  {
-    id: 1,
-    userId: 1,
-    keywords: ["flying", "sky"],
-    description: "I was flying in the sky.",
-    emotion: "JOY",
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: 2,
-    userId: 1,
-    keywords: ["monster", "dark"],
-    description: "A monster chased me.",
-    emotion: "FEAR",
-    createdAt: new Date(Date.now() - 86400000 * 2).toISOString(), // 2 days ago
-  },
-  {
-    id: 3,
-    userId: 1,
-    keywords: ["exam", "fail"],
-    description: "I failed my exam.",
-    emotion: "SAD",
-    createdAt: new Date(Date.now() - 86400000 * 5).toISOString(), // 5 days ago
-  },
-];
+import { format } from "date-fns";
 
 const CalendarPage: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDream, setSelectedDream] = useState<DreamRecord | null>(null);
+
+  // Fetch dreams for the current month (using dummy data for now)
+  const { data: response } = useDreamsQuery(format(selectedDate, "yyyy-MM"));
+  const dreams = useMemo(() => response?.data || [], [response?.data]);
+
+  // Find dream for selected date
+  const dreamForSelectedDate = useMemo(() => {
+    return dreams.find(
+      (dream) =>
+        format(new Date(dream.createdAt), "yyyy-MM-dd") ===
+        format(selectedDate, "yyyy-MM-dd")
+    );
+  }, [dreams, selectedDate]);
 
   return (
-    <div className="p-6 space-y-12 h-full pb-24 overflow-y-auto flex flex-col gap-[25px]">
+    <div className="p-6 space-y-8 h-full pb-24 overflow-y-auto flex flex-col">
+      {/* Calendar Section */}
       <div className="glass-panel rounded-[32px] p-6 transition-all duration-300 hover:shadow-lg bg-white/40">
         <CalendarWidget
           selectedDate={selectedDate}
           onDateChange={setSelectedDate}
-          dreams={DUMMY_DREAMS}
+          dreams={dreams}
         />
       </div>
-      <MonthlyStats currentMonthDreams={DUMMY_DREAMS} />
+
+      {/* Analysis Section */}
+      <MonthlyStats currentMonthDreams={dreams} />
+
+      {/* Selected Dream Card */}
+      {dreamForSelectedDate && (
+        <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <h3 className="text-lg font-bold mb-4 px-2 text-gray-800">
+            {format(selectedDate, "M월 d일")}의 꿈
+          </h3>
+          <DreamCard
+            dream={dreamForSelectedDate}
+            onClick={() => setSelectedDream(dreamForSelectedDate)}
+          />
+        </div>
+      )}
+
+      {/* Detail Modal */}
+      <DreamDetailModal
+        dream={selectedDream}
+        onClose={() => setSelectedDream(null)}
+      />
     </div>
   );
 };

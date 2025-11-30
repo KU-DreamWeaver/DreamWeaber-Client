@@ -31,7 +31,7 @@ const ResultModal: React.FC<ResultModalProps> = ({ isOpen, onClose, data }) => {
         </div>
 
         {/* Content */}
-        <div className="flex flex-col flex-1 overflow-y-auto">
+        <div className="flex flex-col flex-1 overflow-y-auto min-h-0">
           {/* Image Area */}
           <div className="relative w-full aspect-square bg-[var(--secondary-light)]/30">
             {data.imageUrl ? (
