@@ -35,14 +35,23 @@ const CalendarPage: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   return (
-    <div className="p-4 space-y-6 pb-24">
-      <h1 className="text-2xl font-bold">Calendar</h1>
-      <CalendarWidget
-        selectedDate={selectedDate}
-        onDateChange={setSelectedDate}
-        dreams={DUMMY_DREAMS}
-      />
-      <MonthlyStats currentMonthDreams={DUMMY_DREAMS} />
+    <div className="p-4 space-y-4 pb-20">
+      <h1
+        className="gradient-title text-2xl font-bold"
+        style={{ fontFamily: "'LOTTERIA CHAB', sans-serif" }}
+      >
+        DreamWeaver
+      </h1>
+      <div className="card-container rounded-2xl p-4">
+        <CalendarWidget
+          selectedDate={selectedDate}
+          onDateChange={setSelectedDate}
+          dreams={DUMMY_DREAMS}
+        />
+      </div>
+      <div className="card-container rounded-2xl p-4">
+        <MonthlyStats currentMonthDreams={DUMMY_DREAMS} />
+      </div>
     </div>
   );
 };

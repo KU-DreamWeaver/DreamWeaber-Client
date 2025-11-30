@@ -22,22 +22,22 @@ const AMPM = ["오전", "오후"];
 
 const TimePicker: React.FC<TimePickerProps> = ({ value, onChange }) => {
   return (
-    <div className="relative h-[200px] w-full bg-white overflow-hidden">
+    <div className="relative h-[180px] w-full overflow-hidden rounded-xl">
       {/* Top Overlay */}
-      <div className="absolute top-0 w-full h-[40%] bg-gradient-to-b from-white to-transparent pointer-events-none z-10" />
+      <div className="absolute top-0 w-full h-[35%] bg-gradient-to-b from-[var(--card-bg)] to-transparent pointer-events-none z-10" />
 
       {/* Bottom Overlay */}
-      <div className="absolute bottom-0 w-full h-[40%] bg-gradient-to-t from-white to-transparent pointer-events-none z-10" />
+      <div className="absolute bottom-0 w-full h-[35%] bg-gradient-to-t from-[var(--card-bg)] to-transparent pointer-events-none z-10" />
 
       {/* Highlight Bar */}
-      <div className="absolute top-1/2 left-0 -translate-y-1/2 w-full h-[40px] bg-gray-100 -z-10 rounded-lg" />
+      <div className="absolute top-1/2 left-0 -translate-y-1/2 w-full h-[40px] bg-[var(--primary-light)] -z-10 rounded-lg" />
 
       {/* Picker */}
       <Picker
         value={value as unknown as Record<string, string>}
         onChange={(newValue) => onChange(newValue as unknown as TimeState)}
         wheelMode="normal"
-        height={200}
+        height={180}
         itemHeight={40}
       >
         <Picker.Column name="ampm">
@@ -45,8 +45,10 @@ const TimePicker: React.FC<TimePickerProps> = ({ value, onChange }) => {
             <Picker.Item key={option} value={option}>
               {({ selected }) => (
                 <div
-                  className={`flex items-center justify-center h-[40px] ${
-                    selected ? "font-bold text-black" : "text-gray-400"
+                  className={`flex items-center justify-center h-[40px] transition-colors ${
+                    selected
+                      ? "font-bold text-[var(--primary)]"
+                      : "text-[var(--text-muted)]"
                   }`}
                 >
                   {option}
@@ -61,8 +63,10 @@ const TimePicker: React.FC<TimePickerProps> = ({ value, onChange }) => {
             <Picker.Item key={option} value={option}>
               {({ selected }) => (
                 <div
-                  className={`flex items-center justify-center h-[40px] ${
-                    selected ? "font-bold text-black" : "text-gray-400"
+                  className={`flex items-center justify-center h-[40px] transition-colors ${
+                    selected
+                      ? "font-bold text-[var(--primary)]"
+                      : "text-[var(--text-muted)]"
                   }`}
                 >
                   {option}
@@ -77,8 +81,10 @@ const TimePicker: React.FC<TimePickerProps> = ({ value, onChange }) => {
             <Picker.Item key={option} value={option}>
               {({ selected }) => (
                 <div
-                  className={`flex items-center justify-center h-[40px] ${
-                    selected ? "font-bold text-black" : "text-gray-400"
+                  className={`flex items-center justify-center h-[40px] transition-colors ${
+                    selected
+                      ? "font-bold text-[var(--primary)]"
+                      : "text-[var(--text-muted)]"
                   }`}
                 >
                   {option}

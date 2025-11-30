@@ -9,25 +9,25 @@ const BottomNav: React.FC = () => {
   const isActive = (path: string) => location.pathname === path;
 
   const navItems = [
-    { icon: Calendar, path: "/calendar", label: "Calendar" },
-    { icon: Book, path: "/list", label: "List" },
-    { icon: Pen, path: "/record", label: "Record", isFab: true },
-    { icon: Bell, path: "/alarm", label: "Alarm" },
-    { icon: User, path: "/my", label: "My" },
+    { icon: Calendar, path: "/calendar", label: "캘린더" },
+    { icon: Book, path: "/list", label: "목록" },
+    { icon: Pen, path: "/record", label: "기록", isFab: true },
+    { icon: Bell, path: "/alarm", label: "알람" },
+    { icon: User, path: "/my", label: "마이" },
   ];
 
   return (
-    <nav className="fixed bottom-0 max-w-[430px] w-full h-[80px] bg-white border-t rounded-t-[24px] z-50 flex justify-around items-center px-4">
+    <nav className="w-full bg-white/95 backdrop-blur-sm flex justify-around items-center h-[70px] px-4 border-t border-[var(--secondary-light)]/30 relative">
       {navItems.map((item) => {
         if (item.isFab) {
           return (
             <button
               key={item.path}
               onClick={() => navigate(item.path)}
-              className="absolute -top-8 left-1/2 -translate-x-1/2 w-16 h-16 rounded-full bg-primary shadow-lg flex items-center justify-center border-4 border-white"
+              className="absolute -top-5 left-1/2 -translate-x-1/2 w-12 h-12 rounded-full btn-primary shadow-lg flex flex-col items-center justify-center border-4 border-white"
               aria-label={item.label}
             >
-              <item.icon size={28} color="white" />
+              <item.icon size={20} color="white" strokeWidth={2} />
             </button>
           );
         }
@@ -37,12 +37,19 @@ const BottomNav: React.FC = () => {
           <button
             key={item.path}
             onClick={() => navigate(item.path)}
-            className={`flex flex-col items-center justify-center w-12 h-12 ${
-              active ? "text-primary" : "text-gray-300"
+            className={`flex flex-col items-center justify-center gap-0.5 transition-colors ${
+              active ? "text-[var(--primary)]" : "text-[var(--secondary)]/60"
             }`}
             aria-label={item.label}
           >
-            <item.icon size={24} />
+            <item.icon size={20} strokeWidth={active ? 2.5 : 2} />
+            <span
+              className={`text-[10px] ${
+                active ? "font-semibold" : "font-medium"
+              }`}
+            >
+              {item.label}
+            </span>
           </button>
         );
       })}

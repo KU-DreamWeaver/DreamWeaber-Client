@@ -8,13 +8,38 @@ interface MonthlyStatsProps {
 
 const EMOTION_CONFIG: Record<
   EmotionType,
-  { label: string; icon: React.ElementType; color: string }
+  { label: string; icon: React.ElementType; bgColor: string; textColor: string }
 > = {
-  JOY: { label: "Joy", icon: Smile, color: "text-pink-500 bg-pink-50" },
-  SAD: { label: "Sad", icon: Frown, color: "text-blue-500 bg-blue-50" },
-  ANGRY: { label: "Angry", icon: Angry, color: "text-red-500 bg-red-50" },
-  FEAR: { label: "Fear", icon: Ghost, color: "text-purple-500 bg-purple-50" },
-  MUMBLE: { label: "Mumble", icon: Meh, color: "text-gray-500 bg-gray-50" },
+  JOY: {
+    label: "기쁨",
+    icon: Smile,
+    bgColor: "bg-[var(--primary-light)]",
+    textColor: "text-[var(--primary)]",
+  },
+  SAD: {
+    label: "슬픔",
+    icon: Frown,
+    bgColor: "bg-[var(--secondary-light)]/50",
+    textColor: "text-[var(--secondary)]",
+  },
+  ANGRY: {
+    label: "분노",
+    icon: Angry,
+    bgColor: "bg-red-100",
+    textColor: "text-red-500",
+  },
+  FEAR: {
+    label: "공포",
+    icon: Ghost,
+    bgColor: "bg-purple-100",
+    textColor: "text-purple-500",
+  },
+  MUMBLE: {
+    label: "모호함",
+    icon: Meh,
+    bgColor: "bg-gray-100",
+    textColor: "text-gray-500",
+  },
 };
 
 const MonthlyStats: React.FC<MonthlyStatsProps> = ({ currentMonthDreams }) => {
@@ -39,37 +64,38 @@ const MonthlyStats: React.FC<MonthlyStatsProps> = ({ currentMonthDreams }) => {
 
   if (!stats) {
     return (
-      <div className="p-6 bg-white rounded-2xl shadow-sm border text-center text-gray-400">
-        <p>No dreams recorded this month.</p>
+      <div className="text-center py-6">
+        <p className="text-[var(--text-muted)] text-sm">
+          이번 달에 기록된 꿈이 없어요
+        </p>
       </div>
     );
   }
 
   const MaxEmotionIcon = EMOTION_CONFIG[stats.maxEmotion].icon;
+  const maxConfig = EMOTION_CONFIG[stats.maxEmotion];
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border p-6">
-      <h3 className="text-lg font-semibold text-gray-800 mb-4">
-        Monthly Analysis
+    <div>
+      <h3 className="text-base font-semibold text-[var(--text-primary)] mb-3">
+        이번 달 분석
       </h3>
 
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-4 p-3 rounded-xl bg-[var(--primary-light)]">
         <div>
-          <p className="text-sm text-gray-500 mb-1">Emotion of the Month</p>
-          <p className="text-2xl font-bold text-gray-900">
-            {EMOTION_CONFIG[stats.maxEmotion].label}
+          <p className="text-xs text-[var(--text-muted)] mb-0.5">
+            이번 달의 감정
+          </p>
+          <p className="text-lg font-bold text-[var(--text-primary)]">
+            {maxConfig.label}
           </p>
         </div>
-        <div
-          className={`p-4 rounded-full ${
-            EMOTION_CONFIG[stats.maxEmotion].color
-          }`}
-        >
-          <MaxEmotionIcon size={32} />
+        <div className={`p-3 rounded-full ${maxConfig.bgColor}`}>
+          <MaxEmotionIcon size={24} className={maxConfig.textColor} />
         </div>
       </div>
 
-      <div className="space-y-3">
+      <div className="space-y-2">
         {Object.entries(stats.counts)
           .sort(([, a], [, b]) => b - a)
           .map(([key, count]) => {
@@ -78,24 +104,25 @@ const MonthlyStats: React.FC<MonthlyStatsProps> = ({ currentMonthDreams }) => {
             const percentage = Math.round((count / stats.total) * 100);
 
             return (
-              <div key={emotion} className="flex items-center gap-3">
-                <div className={`p-1.5 rounded-lg ${config.color}`}>
-                  <config.icon size={16} />
+              <div key={emotion} className="flex items-center gap-2">
+                <div className={`p-1.5 rounded-lg ${config.bgColor}`}>
+                  <config.icon size={14} className={config.textColor} />
                 </div>
                 <div className="flex-1">
-                  <div className="flex justify-between text-sm mb-1">
-                    <span className="font-medium text-gray-700">
+                  <div className="flex justify-between text-xs mb-1">
+                    <span className="font-medium text-[var(--text-primary)]">
                       {config.label}
                     </span>
-                    <span className="text-gray-500">
-                      {count} ({percentage}%)
+                    <span className="text-[var(--text-muted)]">
+                      {count}개 ({percentage}%)
                     </span>
                   </div>
-                  <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+                  <div className="w-full h-1.5 bg-[var(--secondary-light)]/30 rounded-full overflow-hidden">
                     <div
-                      className={`h-full rounded-full ${config.color
-                        .split(" ")[0]
-                        .replace("text", "bg")}`}
+                      className={`h-full rounded-full ${config.textColor.replace(
+                        "text",
+                        "bg"
+                      )}`}
                       style={{ width: `${percentage}%` }}
                     />
                   </div>

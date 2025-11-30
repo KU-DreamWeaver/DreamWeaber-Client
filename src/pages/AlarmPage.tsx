@@ -7,9 +7,7 @@ import { Bell, BellOff } from "lucide-react";
 const AlarmPage: React.FC = () => {
   const { alarmTime, isEnabled, setAlarmTime, setIsEnabled } = useAlarmStore();
 
-  const handleToggle = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const checked = e.target.checked;
-
+  const handleToggle = async (checked: boolean) => {
     if (checked) {
       const permission = await Notification.requestPermission();
       if (permission !== "granted") {
@@ -18,47 +16,53 @@ const AlarmPage: React.FC = () => {
         return;
       }
     }
-
     setIsEnabled(checked);
   };
 
   return (
-    <div className="p-4 space-y-6 pb-24">
-      <h1 className="text-2xl font-bold">Alarm</h1>
+    <div className="p-4 space-y-4 pb-20">
+      <h1
+        className="gradient-title text-2xl font-bold"
+        style={{ fontFamily: "'LOTTERIA CHAB', sans-serif" }}
+      >
+        DreamWeaver
+      </h1>
 
       {/* Status Card */}
       <div
-        className={`relative overflow-hidden rounded-3xl p-6 text-center transition-all duration-500 ${
+        className={`card-container relative overflow-hidden rounded-2xl p-6 text-center transition-all duration-300 ${
           isEnabled
-            ? "bg-primary text-white shadow-lg shadow-primary/30"
-            : "bg-gray-100 text-gray-400"
+            ? "bg-gradient-to-br from-[var(--primary)] to-[var(--primary-dark)] text-white"
+            : ""
         }`}
       >
         <div className="relative z-10 flex flex-col items-center justify-center space-y-2">
           {isEnabled ? (
             <>
               <div className="p-3 bg-white/20 rounded-full backdrop-blur-sm mb-2">
-                <Bell size={32} className="text-white animate-pulse" />
+                <Bell size={28} className="text-white animate-pulse" />
               </div>
-              <p className="text-sm font-medium opacity-90">Alarm is ON</p>
+              <p className="text-sm font-medium opacity-90">
+                알람이 설정되었어요
+              </p>
               <h2 className="text-4xl font-bold tracking-tight">
                 {alarmTime.ampm} {alarmTime.hour}:{alarmTime.minute}
               </h2>
-              <p className="text-xs opacity-75">
-                You will be notified at this time
-              </p>
+              <p className="text-xs opacity-75">이 시간에 알림이 올려요</p>
             </>
           ) : (
             <>
-              <div className="p-3 bg-gray-200 rounded-full mb-2">
-                <BellOff size={32} className="text-gray-400" />
+              <div className="p-3 bg-[var(--primary-light)] rounded-full mb-2">
+                <BellOff size={28} className="text-[var(--secondary)]" />
               </div>
-              <p className="text-sm font-medium">Alarm is OFF</p>
-              <h2 className="text-4xl font-bold tracking-tight text-gray-300">
+              <p className="text-sm font-medium text-[var(--text-secondary)]">
+                알람이 꺼져있어요
+              </p>
+              <h2 className="text-4xl font-bold tracking-tight text-[var(--text-muted)]">
                 -- : --
               </h2>
-              <p className="text-xs opacity-75">
-                Tap the button below to set an alarm
+              <p className="text-xs text-[var(--text-muted)]">
+                아래에서 알람을 설정해보세요
               </p>
             </>
           )}
@@ -66,11 +70,13 @@ const AlarmPage: React.FC = () => {
       </div>
 
       {/* Controls */}
-      <div className="bg-white rounded-2xl shadow-sm border p-6 space-y-6">
+      <div className="card-container rounded-2xl p-6 space-y-5">
         <div className="text-center">
-          <h3 className="text-lg font-semibold text-gray-900 mb-1">Set Time</h3>
-          <p className="text-sm text-gray-500">
-            Scroll to pick your wake-up time
+          <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-1">
+            시간 설정
+          </h3>
+          <p className="text-sm text-[var(--text-muted)]">
+            기상 시간을 선택해주세요
           </p>
         </div>
 
@@ -80,12 +86,8 @@ const AlarmPage: React.FC = () => {
             onChange={(newTime) => {
               setAlarmTime(newTime);
               if (!isEnabled) {
-                setIsEnabled(true);
-                toast.success("Alarm activated!", { icon: "⏰" });
-                // Request permission if not granted
-                if (Notification.permission !== "granted") {
-                  Notification.requestPermission();
-                }
+                handleToggle(true);
+                toast.success("알람이 설정되었어요!", { icon: "⏰" });
               }
             }}
           />
@@ -95,26 +97,20 @@ const AlarmPage: React.FC = () => {
         <button
           onClick={() => {
             if (!isEnabled) {
-              // Turn ON
-              handleToggle({
-                target: { checked: true },
-              } as React.ChangeEvent<HTMLInputElement>);
-              toast.success("Alarm activated!", { icon: "⏰" });
+              handleToggle(true);
+              toast.success("알람이 설정되었어요!", { icon: "⏰" });
             } else {
-              // Turn OFF
-              handleToggle({
-                target: { checked: false },
-              } as React.ChangeEvent<HTMLInputElement>);
-              toast.success("Alarm deactivated");
+              handleToggle(false);
+              toast.success("알람이 해제되었어요");
             }
           }}
-          className={`w-full py-4 rounded-xl font-bold text-lg transition-all duration-300 transform active:scale-95 ${
+          className={`w-full py-3.5 rounded-xl font-bold text-base transition-all duration-300 ${
             isEnabled
-              ? "bg-gray-100 text-gray-500 hover:bg-gray-200"
-              : "bg-primary text-white shadow-lg shadow-primary/30 hover:bg-primary/90"
+              ? "bg-[var(--primary-light)] text-[var(--text-secondary)] hover:bg-[var(--secondary-light)]"
+              : "btn-primary text-white shadow-lg"
           }`}
         >
-          {isEnabled ? "Turn Off Alarm" : "Set Alarm"}
+          {isEnabled ? "알람 해제" : "알람 설정"}
         </button>
       </div>
     </div>

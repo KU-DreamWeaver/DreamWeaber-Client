@@ -10,12 +10,18 @@ import "./App.css";
 
 const Layout: React.FC = () => {
   return (
-    <div className="h-full w-full bg-gray-100 flex justify-center items-center overflow-hidden">
-      <div className="w-full max-w-[430px] h-full bg-white relative shadow-2xl flex flex-col overflow-hidden">
-        <div className="flex-1 overflow-y-auto pb-[80px] scrollbar-hide">
+    // Desktop wrapper - fills entire viewport with gradient background
+    <div className="desktop-wrapper h-[100dvh] h-[100vh] w-full flex justify-center items-center overflow-hidden">
+      {/* Mobile container - centered on desktop, full screen on mobile */}
+      <div className="mobile-gradient w-full max-w-[430px] h-full md:h-[90vh] md:max-h-[850px] md:rounded-[32px] relative overflow-hidden md:shadow-2xl md:border md:border-white/20 flex flex-col">
+        {/* Content area */}
+        <div className="flex-1 overflow-y-auto scrollbar-hide relative">
           <Outlet />
         </div>
-        <BottomNav />
+        {/* Bottom Navigation */}
+        <div className="shrink-0">
+          <BottomNav />
+        </div>
       </div>
     </div>
   );
@@ -29,7 +35,17 @@ function App() {
 
   return (
     <>
-      <Toaster />
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          style: {
+            background: "#fcf1f8",
+            color: "#1a1a2e",
+            borderRadius: "12px",
+            border: "1px solid #f064a1",
+          },
+        }}
+      />
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Navigate to="/calendar" replace />} />

@@ -11,8 +11,6 @@ const RecordPage: React.FC = () => {
 
   const handleRecordClose = () => {
     setIsRecordOpen(false);
-    // If no result, go back (or stay if you want).
-    // Usually if user cancels, we might want to go back to previous page or home.
     if (!resultData) {
       navigate(-1);
     }
@@ -25,12 +23,11 @@ const RecordPage: React.FC = () => {
 
   const handleResultClose = () => {
     setResultData(null);
-    navigate("/calendar"); // Go to calendar after viewing result
+    navigate("/calendar");
   };
 
   return (
-    <div className="p-4 flex items-center justify-center h-full">
-      <p className="text-gray-500">Opening Record Modal...</p>
+    <div className="flex-1 relative overflow-hidden">
       <RecordModal
         isOpen={isRecordOpen}
         onClose={handleRecordClose}

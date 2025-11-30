@@ -2,27 +2,70 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 이미지 크기 조절 문제 해결 */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
 html,
 body,
 #root {
   height: 100%;
+  width: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden; /* Prevent double scrollbars if possible, handle scroll in app */
+  overflow: hidden;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+}
+
+body {
+  min-height: 100%;
+  min-height: -webkit-fill-available;
+}
+
+html {
+  height: -webkit-fill-available;
 }
 
 :root {
-  --primary: #8b5cf6; /* Example primary color (Violet-500) - can be changed */
-  --background: #ffffff;
-  --muted: #9ca3af; /* Gray-400 */
+  /* Primary Colors - Pink/Magenta Theme */
+  --primary: #f064a1;
+  --primary-dark: #d64580;
+  --primary-light: rgba(240, 100, 161, 0.15);
 
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  /* Secondary Colors - Purple Theme */
+  --secondary: #9b70c5;
+  --secondary-light: #edc8ff;
+
+  /* Background Colors */
+  --bg-gradient-start: #edc8ff;
+  --bg-gradient-end: #ffffff;
+  --card-bg: #fcf1f8;
+  --input-bg: #fffafa;
+
+  /* Text Colors */
+  --text-primary: #1a1a2e;
+  --text-secondary: #4a4a6a;
+  --text-muted: #9ca3af;
+
+  /* UI Colors */
+  --border-color: #f064a1;
+  --shadow-color: rgba(0, 0, 0, 0.15);
+
+  font-family: "Pretendard Variable", system-ui, -apple-system,
+    BlinkMacSystemFont, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color-scheme: light;
+  color: var(--text-primary);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -30,9 +73,82 @@ body,
   -moz-osx-font-smoothing: grayscale;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
+/* Desktop wrapper background */
+.desktop-wrapper {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+}
+
+/* Mobile container gradient */
+.mobile-gradient {
+  background: linear-gradient(
+    180deg,
+    var(--bg-gradient-start) 0%,
+    var(--bg-gradient-end) 100%
+  );
+}
+
+/* Title gradient text */
+.gradient-title {
+  background: linear-gradient(135deg, #edc8ff 0%, #9b70c5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Card styling */
+.card-container {
+  background-color: var(--card-bg);
+  box-shadow: 0 4px 20px var(--shadow-color);
+}
+
+/* Input styling */
+.input-field {
+  background-color: var(--input-bg);
+  border: 1.5px solid var(--border-color);
+  transition: all 0.2s ease;
+}
+
+.input-field:focus {
+  box-shadow: 0 0 0 3px var(--primary-light);
+  border-color: var(--primary);
+}
+
+/* Button styling */
+.btn-primary {
+  background: linear-gradient(
+    135deg,
+    var(--primary) 0%,
+    var(--primary-dark) 100%
+  );
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(240, 100, 161, 0.4);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+/* Emotion button styling */
+.emotion-btn {
+  background-color: rgba(247, 221, 238, 0.6);
+  transition: all 0.2s ease;
+}
+
+.emotion-btn.selected {
+  background-color: var(--primary-light);
+  box-shadow: 0 0 0 2px var(--primary);
+}
+
+/* Hide scrollbar but allow scrolling */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
