@@ -19,8 +19,8 @@ const CalendarPage: React.FC = () => {
       format(new Date(dream.createdAt), "yyyy-MM") ===
       format(selectedDate, "yyyy-MM")
   );
-  // Find dream for selected date
-  const dreamForSelectedDate = dreams.find(
+  // Find dreams for selected date
+  const dreamsForSelectedDate = dreams.filter(
     (dream) =>
       format(new Date(dream.createdAt), "yyyy-MM-dd") ===
       format(selectedDate, "yyyy-MM-dd")
@@ -40,16 +40,33 @@ const CalendarPage: React.FC = () => {
       {/* Analysis Section */}
       <MonthlyStats currentMonthDreams={dreamsForCurrentMonth} />
 
-      {/* Selected Dream Card */}
-      {dreamForSelectedDate && (
+      {/* Selected Dream Cards */}
+      {dreamsForSelectedDate.length > 0 && (
         <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-          <h3 className="text-lg font-bold mb-4 px-2 text-gray-800">
-            {format(selectedDate, "M월 d일")}의 꿈
-          </h3>
-          <DreamCard
-            dream={dreamForSelectedDate}
-            onClick={() => setSelectedDream(dreamForSelectedDate)}
-          />
+          <div className="flex items-center justify-between mb-4 px-2">
+            <h3 className="text-lg font-bold text-gray-800">
+              {format(selectedDate, "M월 d일")}의 꿈
+            </h3>
+            <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-purple-100 text-purple-600">
+              {dreamsForSelectedDate.length}개의 기록
+            </span>
+          </div>
+
+          <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 -mx-6 px-6 scrollbar-hide">
+            {dreamsForSelectedDate.map((dream) => (
+              <div
+                key={dream.id}
+                className={`snap-center shrink-0 ${
+                  dreamsForSelectedDate.length > 1 ? "w-[85%]" : "w-full"
+                }`}
+              >
+                <DreamCard
+                  dream={dream}
+                  onClick={() => setSelectedDream(dream)}
+                />
+              </div>
+            ))}
+          </div>
         </div>
       )}
 
