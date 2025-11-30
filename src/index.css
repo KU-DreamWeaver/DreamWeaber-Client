@@ -66,7 +66,6 @@ body,
 /* Glass Utilities */
 .glass-panel {
   backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.5);
   box-shadow: 0 10px 40px -10px rgba(139, 92, 246, 0.15);
 }

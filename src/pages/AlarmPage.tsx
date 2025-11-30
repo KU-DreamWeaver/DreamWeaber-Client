@@ -81,7 +81,7 @@ const AlarmPage: React.FC = () => {
 
             <div className="flex items-center justify-center gap-3">
               <h2
-                className={`text-5xl font-black tracking-tight transition-colors duration-300 ${
+                className={`text-3xl font-black tracking-tight transition-colors duration-300 ${
                   isEnabled ? "text-gray-800" : "text-gray-300"
                 }`}
               >
@@ -180,7 +180,7 @@ const AlarmPage: React.FC = () => {
               { icon: newState ? "⏰" : "🔕" }
             );
           }}
-          className={`w-full py-4 rounded-2xl font-bold text-lg transition-all duration-300 shadow-md hover:shadow-lg active:scale-[0.98] ${
+          className={`w-full py-4 rounded-2xl font-bold text-lg shadow-md hover:shadow-lg active:scale-[0.98] ${
             isEnabled
               ? "bg-white text-red-500 border border-red-100 hover:bg-red-50"
               : "bg-linear-to-r from-[#8E2DE2] to-[#4A00E0] text-white"
