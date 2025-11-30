@@ -31,7 +31,7 @@ const AlarmToast: React.FC<AlarmToastProps> = ({
     <div
       className={`${
         t.visible ? "animate-enter" : "animate-leave"
-      } max-w-md w-full bg-white shadow-lg rounded-2xl pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
+      } max-w-md w-full bg-white shadow-lg rounded-2xl pointer-events-auto flex `}
     >
       <div className="flex-1 w-0 p-4">
         <div className="flex items-start">
