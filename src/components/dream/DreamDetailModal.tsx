@@ -34,7 +34,7 @@ const DreamDetailModal: React.FC<DreamDetailModalProps> = ({
             exit={{ opacity: 0, y: 100, scale: 0.95 }}
             className="fixed inset-x-4 top-[10%] bottom-[10%] z-50 mx-auto md:w-full md:max-w-[400px] md:left-1/2 md:right-auto md:-translate-x-1/2"
           >
-            <div className="bg-white rounded-[32px] overflow-hidden h-full flex flex-col shadow-2xl relative">
+            <div className="bg-white rounded-4xl overflow-hidden h-full flex flex-col shadow-2xl relative">
               {/* Close Button */}
               <button
                 onClick={onClose}
@@ -53,7 +53,7 @@ const DreamDetailModal: React.FC<DreamDetailModalProps> = ({
                   alt="Dream"
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent" />
 
                 <div className="absolute bottom-4 left-6 right-6 text-white">
                   <div className="flex gap-2 mb-2">
@@ -100,7 +100,7 @@ const DreamDetailModal: React.FC<DreamDetailModalProps> = ({
 
                 {/* AI Analysis */}
                 {dream.aiSummary && (
-                  <div className="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-2xl p-5 border border-purple-100">
+                  <div className="bg-linear-to-br from-purple-50 to-indigo-50 rounded-2xl p-5 border border-purple-100">
                     <div className="flex items-center gap-2 mb-3 text-purple-700">
                       <Sparkles size={20} />
                       <h3 className="font-bold">AI 해몽</h3>

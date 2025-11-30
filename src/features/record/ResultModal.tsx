@@ -12,28 +12,28 @@ const ResultModal: React.FC<ResultModalProps> = ({ isOpen, onClose, data }) => {
   if (!isOpen || !data) return null;
 
   return (
-    <div className="fixed top-0 bottom-0 left-0 right-0 md:left-1/2 md:right-auto md:-translate-x-1/2 md:w-full md:max-w-[430px] z-[100] flex items-center justify-center mobile-gradient px-4 py-6">
+    <div className="fixed top-0 bottom-0 left-0 right-0 md:left-1/2 md:right-auto md:-translate-x-1/2 md:w-full md:max-w-[430px] z-100 flex items-center justify-center mobile-gradient px-4 py-6">
       <div className="w-full max-w-[400px] card-container rounded-2xl overflow-hidden flex flex-col max-h-full relative">
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-[var(--secondary-light)]/30">
+        <div className="flex items-center justify-between p-4 border-b border-(--secondary-light)/30">
           <div className="flex items-center gap-2">
-            <Sparkles size={20} className="text-[var(--primary)]" />
-            <h2 className="font-semibold text-[var(--text-primary)]">
+            <Sparkles size={20} className="text-(--primary)" />
+            <h2 className="font-semibold text-(--text-primary)">
               꿈 해석 결과
             </h2>
           </div>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-[var(--primary-light)] rounded-full transition-colors"
+            className="p-2 hover:bg-(--primary-light) rounded-full transition-colors"
           >
-            <X size={20} className="text-[var(--text-secondary)]" />
+            <X size={20} className="text-(--text-secondary)" />
           </button>
         </div>
 
         {/* Content */}
         <div className="flex flex-col flex-1 overflow-y-auto min-h-0">
           {/* Image Area */}
-          <div className="relative w-full aspect-square bg-[var(--secondary-light)]/30">
+          <div className="relative w-full aspect-square bg-(--secondary-light)/30">
             {data.imageUrl ? (
               <img
                 src={data.imageUrl}
@@ -42,16 +42,16 @@ const ResultModal: React.FC<ResultModalProps> = ({ isOpen, onClose, data }) => {
                 className="w-full h-full object-cover"
               />
             ) : (
-              <div className="w-full h-full flex flex-col items-center justify-center text-[var(--text-muted)] gap-3">
-                <div className="w-16 h-16 rounded-full bg-[var(--primary-light)] flex items-center justify-center">
-                  <Sparkles size={28} className="text-[var(--secondary)]" />
+              <div className="w-full h-full flex flex-col items-center justify-center text-(--text-muted) gap-3">
+                <div className="w-16 h-16 rounded-full bg-(--primary-light) flex items-center justify-center">
+                  <Sparkles size={28} className="text-(--secondary)" />
                 </div>
                 <span className="text-sm">이미지 생성 중...</span>
               </div>
             )}
 
             {/* Text Overlay (Bottom) */}
-            <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/70 via-black/40 to-transparent text-white">
+            <div className="absolute bottom-0 left-0 right-0 p-4 bg-linear-to-t from-black/70 via-black/40 to-transparent text-white">
               <p className="text-sm font-medium leading-relaxed line-clamp-3">
                 {data.description}
               </p>
@@ -65,7 +65,7 @@ const ResultModal: React.FC<ResultModalProps> = ({ isOpen, onClose, data }) => {
                 {data.keywords.map((keyword, index) => (
                   <span
                     key={index}
-                    className="px-3 py-1 bg-[var(--primary-light)] rounded-full text-xs text-[var(--secondary)] font-medium"
+                    className="px-3 py-1 bg-(--primary-light) rounded-full text-xs text-(--secondary) font-medium"
                   >
                     #{keyword}
                   </span>
@@ -76,7 +76,7 @@ const ResultModal: React.FC<ResultModalProps> = ({ isOpen, onClose, data }) => {
         </div>
 
         {/* Footer */}
-        <div className="p-4 border-t border-[var(--secondary-light)]/30">
+        <div className="p-4 border-t border-(--secondary-light)/30">
           <button
             onClick={onClose}
             className="btn-primary w-full py-3 text-white rounded-xl font-semibold"

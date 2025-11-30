@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Book, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 import { useDreamsQuery } from "../hooks/queries/useDream";
-import DreamCard from "../components/dream/DreamCard";
 import DreamDetailModal from "../components/dream/DreamDetailModal";
 import type { DreamRecord } from "../types/dream";
 import { format } from "date-fns";
@@ -92,11 +91,11 @@ const ListPage: React.FC = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="glass-card rounded-[32px] p-12 flex flex-col items-center justify-center text-center min-h-[400px] relative overflow-hidden"
+          className="glass-card rounded-4xl p-12 flex flex-col items-center justify-center text-center min-h-[400px] relative overflow-hidden"
         >
-          <div className="absolute inset-0 bg-gradient-to-b from-white/40 to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-linear-to-b from-white/40 to-transparent pointer-events-none" />
 
-          <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-[#e0c3fc] to-[#8ec5fc] flex items-center justify-center mb-6 shadow-lg shadow-purple-200/50 animate-pulse">
+          <div className="w-24 h-24 rounded-full bg-linear-to-tr from-[#e0c3fc] to-[#8ec5fc] flex items-center justify-center mb-6 shadow-lg shadow-purple-200/50 animate-pulse">
             <Sparkles size={40} className="text-white drop-shadow-md" />
           </div>
 

@@ -27,7 +27,7 @@ const CalendarPage: React.FC = () => {
   return (
     <div className="p-6 space-y-8 h-full pb-24 overflow-y-auto flex flex-col">
       {/* Calendar Section */}
-      <div className="glass-panel rounded-[32px] p-6 transition-all duration-300 hover:shadow-lg bg-white/40">
+      <div className="glass-panel rounded-4xl p-6 transition-all duration-300 hover:shadow-lg bg-white/40">
         <CalendarWidget
           selectedDate={selectedDate}
           onDateChange={setSelectedDate}

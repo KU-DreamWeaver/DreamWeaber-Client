@@ -15,7 +15,7 @@ const DreamCard: React.FC<DreamCardProps> = ({ dream, onClick }) => {
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
       onClick={onClick}
-      className="relative w-full aspect-[4/5] rounded-[32px] overflow-hidden shadow-xl cursor-pointer group"
+      className="relative w-full aspect-4/5 rounded-4xl overflow-hidden shadow-xl cursor-pointer group"
     >
       {/* Full Bleed Image */}
       <img

@@ -109,7 +109,7 @@ const MonthlyStats: React.FC<MonthlyStatsProps> = ({ currentMonthDreams }) => {
             가장 많이 느낀 감정
           </p>
           <p
-            className={`text-4xl font-black bg-gradient-to-r ${maxConfig.gradient} bg-clip-text text-transparent`}
+            className={`text-4xl font-black bg-linear-to-r ${maxConfig.gradient} bg-clip-text text-transparent`}
           >
             {maxConfig.label}
           </p>

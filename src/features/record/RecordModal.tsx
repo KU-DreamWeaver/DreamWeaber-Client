@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { Plus, Smile, Frown, Angry, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCreateDreamMutation } from "../../hooks/queries/useDream";
@@ -38,7 +38,7 @@ const RecordModal: React.FC<RecordModalProps> = ({
     register,
     handleSubmit,
     setValue,
-    watch,
+    control,
     reset,
     formState: { errors },
   } = useForm<RecordFormValues>({
@@ -51,8 +51,8 @@ const RecordModal: React.FC<RecordModalProps> = ({
 
   const { mutate, isPending } = useCreateDreamMutation();
 
-  const keywords = watch("keywords");
-  const selectedEmotion = watch("emotion");
+  const keywords = useWatch({ control, name: "keywords" });
+  const selectedEmotion = useWatch({ control, name: "emotion" });
 
   const handleAddKeyword = () => {
     if (keywordInput.trim() && !keywords.includes(keywordInput.trim())) {
@@ -92,7 +92,7 @@ const RecordModal: React.FC<RecordModalProps> = ({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] flex flex-col bg-[#faf9fe]/90 backdrop-blur-xl"
+          className="fixed inset-0 z-100 flex flex-col bg-[#faf9fe]/90 backdrop-blur-xl"
         >
           {/* Header */}
           <div className="pt-6 px-6 shrink-0 flex justify-between items-center">
@@ -180,7 +180,7 @@ const RecordModal: React.FC<RecordModalProps> = ({
                     <Plus size={24} strokeWidth={2.5} />
                   </button>
                 </div>
-                <div className="flex flex-wrap gap-2 min-h-[2rem]">
+                <div className="flex flex-wrap gap-2 min-h-8">
                   <AnimatePresence>
                     {keywords.map((keyword) => (
                       <motion.span
@@ -223,7 +223,7 @@ const RecordModal: React.FC<RecordModalProps> = ({
             <button
               onClick={handleSubmit(onSubmit)}
               disabled={isPending}
-              className="w-full h-14 bg-gradient-to-r from-[#4A00E0] to-[#8E2DE2] text-white rounded-2xl font-bold text-lg shadow-lg shadow-purple-200 hover:shadow-purple-300 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full h-14 bg-linear-to-r from-[#4A00E0] to-[#8E2DE2] text-white rounded-2xl font-bold text-lg shadow-lg shadow-purple-200 hover:shadow-purple-300 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {isPending ? (
                 "해석 중..."

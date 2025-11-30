@@ -12,9 +12,9 @@ import Header from "./components/layout/Header";
 const Layout: React.FC = () => {
   return (
     // Desktop wrapper - fills entire viewport with gradient background
-    <div className="desktop-wrapper h-[100dvh] h-[100vh] w-full flex justify-center items-center overflow-hidden">
+    <div className="desktop-wrapper h-dvh w-full flex justify-center items-center overflow-hidden">
       {/* Mobile container - centered on desktop, full screen on mobile */}
-      <div className="mobile-gradient w-full max-w-[430px] h-full md:h-[90vh] md:max-h-[850px] md:rounded-[32px] relative overflow-hidden md:shadow-2xl md:border md:border-white/20 flex flex-col">
+      <div className="mobile-gradient w-full max-w-[430px] h-full md:h-[90vh] md:max-h-[850px] md:rounded-4xl relative overflow-hidden md:shadow-2xl md:border md:border-white/20 flex flex-col">
         {/* Header */}
         <Header />
 
