@@ -12,11 +12,26 @@ const AlarmPage: React.FC = () => {
 
   const handleToggle = async (checked: boolean) => {
     if (checked) {
-      const permission = await Notification.requestPermission();
-      if (permission !== "granted") {
-        toast.error("알림 권한을 허용해야 알람을 받을 수 있어요");
+      if (!("Notification" in window)) {
+        toast.error("이 브라우저는 알림을 지원하지 않습니다.");
+        return;
+      }
+
+      if (Notification.permission === "denied") {
+        toast.error(
+          "알림 권한이 차단되어 있습니다. 브라우저 설정에서 권한을 허용해주세요."
+        );
         setIsEnabled(false);
         return;
+      }
+
+      if (Notification.permission !== "granted") {
+        const permission = await Notification.requestPermission();
+        if (permission !== "granted") {
+          toast.error("알림 권한을 허용해야 알람을 받을 수 있어요");
+          setIsEnabled(false);
+          return;
+        }
       }
     }
     setIsEnabled(checked);
