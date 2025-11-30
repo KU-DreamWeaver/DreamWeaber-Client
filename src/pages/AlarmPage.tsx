@@ -10,31 +10,43 @@ const AlarmPage: React.FC = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [tempTime, setTempTime] = useState(alarmTime);
 
-  const handleToggle = async (checked: boolean) => {
-    if (checked) {
-      if (!("Notification" in window)) {
-        toast.error("이 브라우저는 알림을 지원하지 않습니다.");
-        return;
-      }
-
-      if (Notification.permission === "denied") {
-        toast.error(
-          "알림 권한이 차단되어 있습니다. 브라우저 설정에서 권한을 허용해주세요."
-        );
-        setIsEnabled(false);
-        return;
-      }
-
-      if (Notification.permission !== "granted") {
-        const permission = await Notification.requestPermission();
-        if (permission !== "granted") {
-          toast.error("알림 권한을 허용해야 알람을 받을 수 있어요");
-          setIsEnabled(false);
-          return;
-        }
-      }
+  const handleToggle = async (checked: boolean): Promise<boolean> => {
+    if (!checked) {
+      setIsEnabled(false);
+      return true;
     }
-    setIsEnabled(checked);
+
+    if (!("Notification" in window)) {
+      toast.error("이 브라우저는 알림을 지원하지 않습니다.");
+      return false;
+    }
+
+    if (Notification.permission === "granted") {
+      setIsEnabled(true);
+      return true;
+    }
+
+    if (Notification.permission === "denied") {
+      toast.error(
+        "알림 권한이 차단되어 있습니다. 브라우저 설정에서 권한을 허용해주세요."
+      );
+      return false;
+    }
+
+    try {
+      const permission = await Notification.requestPermission();
+      if (permission === "granted") {
+        setIsEnabled(true);
+        return true;
+      } else {
+        toast.error("알림 권한을 허용해야 알람을 받을 수 있어요");
+        return false;
+      }
+    } catch (error) {
+      console.error("Permission request failed", error);
+      toast.error("알림 권한 요청 중 오류가 발생했습니다.");
+      return false;
+    }
   };
 
   const handleSaveEdit = () => {
@@ -187,13 +199,15 @@ const AlarmPage: React.FC = () => {
         <motion.button
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          onClick={() => {
+          onClick={async () => {
             const newState = !isEnabled;
-            handleToggle(newState);
-            toast.success(
-              newState ? "알람이 설정되었어요!" : "알람이 해제되었어요",
-              { icon: newState ? "⏰" : "🔕" }
-            );
+            const success = await handleToggle(newState);
+            if (success) {
+              toast.success(
+                newState ? "알람이 설정되었어요!" : "알람이 해제되었어요",
+                { icon: newState ? "⏰" : "🔕" }
+              );
+            }
           }}
           className={`w-full py-4 rounded-2xl font-bold text-lg shadow-md hover:shadow-lg active:scale-[0.98] ${
             isEnabled
