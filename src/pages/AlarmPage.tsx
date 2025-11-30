@@ -2,13 +2,32 @@ import React, { useState } from "react";
 import TimePicker from "../features/alarm/TimePicker";
 import { useAlarmStore } from "../store/useAlarmStore";
 import toast from "react-hot-toast";
-import { Bell, BellOff, Clock, PenLine, Check, X } from "lucide-react";
+import { Bell, BellOff, Clock, PenLine, Check, X, Play } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+
+import AlarmToast from "../features/alarm/AlarmToast";
 
 const AlarmPage: React.FC = () => {
   const { alarmTime, isEnabled, setAlarmTime, setIsEnabled } = useAlarmStore();
   const [isEditing, setIsEditing] = useState(false);
   const [tempTime, setTempTime] = useState(alarmTime);
+
+  const handleTestAlarm = () => {
+    toast.custom(
+      (t) => (
+        <AlarmToast
+          t={t}
+          isTest={true}
+          title="[테스트] 기상 시간입니다!"
+          message="알람이 정상적으로 작동합니다."
+        />
+      ),
+      {
+        duration: 5000,
+        position: "top-center",
+      }
+    );
+  };
 
   const handleToggle = async (checked: boolean): Promise<boolean> => {
     if (!checked) {
@@ -196,27 +215,37 @@ const AlarmPage: React.FC = () => {
 
       {/* Toggle Button */}
       {!isEditing && (
-        <motion.button
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          onClick={async () => {
-            const newState = !isEnabled;
-            const success = await handleToggle(newState);
-            if (success) {
-              toast.success(
-                newState ? "알람이 설정되었어요!" : "알람이 해제되었어요",
-                { icon: newState ? "⏰" : "🔕" }
-              );
-            }
-          }}
-          className={`w-full py-4 rounded-2xl font-bold text-lg shadow-md hover:shadow-lg active:scale-[0.98] ${
-            isEnabled
-              ? "bg-white text-red-500 border border-red-100 hover:bg-red-50"
-              : "bg-linear-to-r from-[#8E2DE2] to-[#4A00E0] text-white"
-          }`}
-        >
-          {isEnabled ? "알람 끄기" : "알람 켜기"}
-        </motion.button>
+        <div className="space-y-4">
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            onClick={async () => {
+              const newState = !isEnabled;
+              const success = await handleToggle(newState);
+              if (success) {
+                toast.success(
+                  newState ? "알람이 설정되었어요!" : "알람이 해제되었어요",
+                  { icon: newState ? "⏰" : "🔕" }
+                );
+              }
+            }}
+            className={`w-full py-4 rounded-2xl font-bold text-lg shadow-md hover:shadow-lg active:scale-[0.98] ${
+              isEnabled
+                ? "bg-white text-red-500 border border-red-100 hover:bg-red-50"
+                : "bg-linear-to-r from-[#8E2DE2] to-[#4A00E0] text-white"
+            }`}
+          >
+            {isEnabled ? "알람 끄기" : "알람 켜기"}
+          </motion.button>
+
+          <button
+            onClick={handleTestAlarm}
+            className="w-full py-3 text-sm text-gray-400 hover:text-[#8E2DE2] font-medium transition-colors flex items-center justify-center gap-2"
+          >
+            <Play size={14} />
+            알람 테스트하기
+          </button>
+        </div>
       )}
     </div>
   );
