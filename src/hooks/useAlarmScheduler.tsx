@@ -4,6 +4,7 @@ import { useAlarmStore } from "../store/useAlarmStore";
 import { format } from "date-fns";
 import toast from "react-hot-toast";
 import AlarmToast from "../features/alarm/AlarmToast";
+import { playAlarmSound } from "../utils/audio";
 
 export const useAlarmScheduler = () => {
   const navigate = useNavigate();
@@ -17,7 +18,8 @@ export const useAlarmScheduler = () => {
       const now = new Date();
       const currentHour = format(now, "hh"); // 01-12
       const currentMinute = format(now, "mm"); // 00-59
-      const currentAmpm = format(now, "a") === "AM" ? "오전" : "오후";
+      const ampmRaw = format(now, "a");
+      const currentAmpm = ampmRaw.toUpperCase() === "AM" ? "오전" : "오후";
       const todayDate = format(now, "yyyy-MM-dd");
 
       // Check if alarm matches
@@ -37,32 +39,14 @@ export const useAlarmScheduler = () => {
       // 1. Update last triggered date immediately to prevent double firing
       setLastTriggeredDate(todayDate);
 
-      // 2. Try System Notification first
-      if ("Notification" in window && Notification.permission === "granted") {
-        try {
-          const notification = new Notification("🌙 꿈을 기록할 시간이에요!", {
-            body: "지금 바로 기록하고 해석을 받아보세요!",
-            icon: "/icon-192x192.png",
-          });
+      // Play sound
+      playAlarmSound();
 
-          notification.onclick = () => {
-            window.focus();
-            navigate("/record");
-          };
-
-          // If successful, we don't show the toast
-          return;
-        } catch (e) {
-          console.error("Notification failed", e);
-          // Fallback to toast if notification fails
-        }
-      } else {
-        // 3. Fallback: In-App Custom Toast (if Notification not supported or failed)
-        toast.custom((t) => <AlarmToast t={t} />, {
-          duration: Infinity, // Require user interaction
-          position: "top-center",
-        });
-      }
+      // 2. Always show In-App Custom Toast
+      toast.custom((t) => <AlarmToast t={t} />, {
+        duration: Infinity, // Require user interaction
+        position: "top-center",
+      });
     };
 
     // Check every second for precision

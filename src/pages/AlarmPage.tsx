@@ -6,6 +6,7 @@ import { Bell, BellOff, Clock, PenLine, Check, X, Play } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 import AlarmToast from "../features/alarm/AlarmToast";
+import { playAlarmSound } from "../utils/audio";
 
 const AlarmPage: React.FC = () => {
   const { alarmTime, isEnabled, setAlarmTime, setIsEnabled } = useAlarmStore();
@@ -13,6 +14,7 @@ const AlarmPage: React.FC = () => {
   const [tempTime, setTempTime] = useState(alarmTime);
 
   const handleTestAlarm = () => {
+    playAlarmSound();
     toast.custom(
       (t) => (
         <AlarmToast
@@ -29,36 +31,8 @@ const AlarmPage: React.FC = () => {
     );
   };
 
-  const handleToggle = async (checked: boolean): Promise<boolean> => {
-    if (!checked) {
-      setIsEnabled(false);
-      return true;
-    }
-
-    // 1. Check if Notification API exists
-    if (typeof Notification === "undefined" || !("Notification" in window)) {
-      setIsEnabled(true);
-      return true;
-    }
-
-    // 2. Check current permission
-    if (Notification.permission === "granted") {
-      setIsEnabled(true);
-      return true;
-    }
-
-    // 3. Request permission
-    try {
-      await Notification.requestPermission();
-      // Enable alarm regardless of permission result (we have fallback)
-      setIsEnabled(true);
-      return true;
-    } catch (error) {
-      console.error("Permission request failed", error);
-      // Enable alarm even if request fails
-      setIsEnabled(true);
-      return true;
-    }
+  const handleToggle = (checked: boolean) => {
+    setIsEnabled(checked);
   };
 
   const handleSaveEdit = () => {
@@ -212,15 +186,12 @@ const AlarmPage: React.FC = () => {
           <motion.button
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            onClick={async () => {
-              const newState = !isEnabled;
-              const success = await handleToggle(newState);
-              if (success) {
-                toast.success(
-                  newState ? "알람이 설정되었어요!" : "알람이 해제되었어요",
-                  { icon: newState ? "⏰" : "🔕" }
-                );
-              }
+            onClick={() => {
+              handleToggle(!isEnabled);
+              toast.success(
+                !isEnabled ? "알람이 설정되었어요!" : "알람이 해제되었어요",
+                { icon: !isEnabled ? "⏰" : "🔕" }
+              );
             }}
             className={`w-full py-4 rounded-2xl font-bold text-lg shadow-md hover:shadow-lg active:scale-[0.98] ${
               isEnabled
