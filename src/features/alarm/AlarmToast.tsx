@@ -46,13 +46,13 @@ const AlarmToast: React.FC<AlarmToastProps> = ({
             <div className="mt-3 flex gap-2">
               <button
                 onClick={handleRecord}
-                className="flex-1 bg-purple-600 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-colors"
+                className="flex-1 bg-linear-to-r from-[#8E2DE2] to-[#4A00E0] text-white px-3 py-2 rounded-xl text-sm font-bold shadow-md shadow-purple-200 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
               >
                 지금 기록하기
               </button>
               <button
                 onClick={handleClose}
-                className="flex-1 bg-white text-gray-700 px-3 py-2 rounded-lg text-sm font-medium border border-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-colors"
+                className="flex-1 bg-white border border-gray-100 text-gray-500 px-3 py-2 rounded-xl text-sm font-bold hover:bg-gray-100 hover:text-gray-700 transition-colors duration-200"
               >
                 {isTest ? "닫기" : "나중에"}
               </button>
