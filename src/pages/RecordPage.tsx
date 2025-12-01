@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import RecordModal from "../features/record/RecordModal";
-import ResultModal from "../features/record/ResultModal";
+import DreamDetailModal from "../components/dream/DreamDetailModal";
 import type { DreamRecord } from "../types/dream";
 
 const RecordPage: React.FC = () => {
@@ -33,11 +33,7 @@ const RecordPage: React.FC = () => {
         onClose={handleRecordClose}
         onSuccess={handleRecordSuccess}
       />
-      <ResultModal
-        isOpen={!!resultData}
-        onClose={handleResultClose}
-        data={resultData}
-      />
+      <DreamDetailModal dream={resultData} onClose={handleResultClose} />
     </div>
   );
 };

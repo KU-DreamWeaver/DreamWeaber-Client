@@ -78,7 +78,6 @@ const RecordModal: React.FC<RecordModalProps> = ({
       onSuccess: (response) => {
         reset();
         onSuccess(response.data);
-        onClose();
       },
     });
   };
